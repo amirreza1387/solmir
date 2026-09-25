@@ -45,7 +45,7 @@ const isActive = (href) => {
         <div class="flex items-center gap-8">
           <Link href="/" class="flex items-center gap-3 group">
             <img
-              src="/favicon-32x32.png"
+              src="/apple-touch-icon.png"
               alt="لوگوی سلمیر"
               class="h-10 w-10 rounded-xl object-contain shadow-xs group-hover:scale-105 transition-transform"
               width="40"

@@ -45,7 +45,7 @@ const isActive = (href) => {
     <!-- Mobile Header -->
     <div class="md:hidden flex items-center justify-between bg-white px-5 py-4 shadow-xs border-b border-slate-200">
       <Link href="/" class="flex items-center gap-2">
-        <img src="/favicon-32x32.png" alt="سلمیر" class="w-8 h-8 rounded-lg object-contain" width="32" height="32" />
+        <img src="/apple-touch-icon.png" alt="سلمیر" class="w-8 h-8 rounded-lg object-contain" width="32" height="32" />
         <span class="text-xl font-black text-slate-900">سلمیر</span>
       </Link>
 
@@ -69,7 +69,7 @@ const isActive = (href) => {
       <!-- Brand Logo in Desktop Sidebar -->
       <div class="hidden md:flex items-center justify-between p-6 border-b border-slate-100">
         <Link href="/" class="flex items-center gap-3 group">
-          <img src="/favicon-32x32.png" alt="سلمیر" class="w-10 h-10 rounded-xl object-contain shadow-xs group-hover:scale-105 transition" width="40" height="40" />
+          <img src="/apple-touch-icon.png" alt="سلمیر" class="w-10 h-10 rounded-xl object-contain shadow-xs group-hover:scale-105 transition" width="40" height="40" />
           <div>
             <div class="text-xl font-black text-slate-900 group-hover:text-blue-600 transition">سلمیر</div>
             <div class="text-[10px] text-blue-600 font-bold uppercase tracking-wider">پنل کاربری مشتریان</div>

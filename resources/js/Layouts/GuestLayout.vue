@@ -11,7 +11,7 @@ import FlashMessages from '@/Components/FlashMessages.vue';
     <div class="mb-8 text-center relative z-10">
       <Link href="/" class="inline-flex items-center gap-3 group">
         <img 
-          src="/favicon-32x32.png" 
+          src="/apple-touch-icon.png" 
           alt="لوگوی سلمیر" 
           class="w-12 h-12 rounded-xl object-contain shadow-xs group-hover:scale-105 transition-transform" 
           width="48" 

@@ -24,7 +24,7 @@ import {
         <!-- Brand Info (2 cols on lg) -->
         <div class="lg:col-span-2 space-y-5">
           <div class="flex items-center gap-3">
-            <img src="/favicon-32x32.png" alt="سلمیر" class="w-10 h-10 rounded-xl object-contain shadow-md" width="40" height="40" />
+            <img src="/apple-touch-icon.png" alt="سلمیر" class="w-10 h-10 rounded-xl object-contain shadow-md" width="40" height="40" />
             <span class="text-2xl font-black tracking-tight text-white">
               سلمیر
             </span>
