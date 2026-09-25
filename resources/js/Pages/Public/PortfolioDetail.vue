@@ -1,34 +1,82 @@
 <script setup>
-import { Head, Link } from '@inertiajs/vue3';
+import { computed } from 'vue';
+import { Link } from '@inertiajs/vue3';
 import PublicLayout from '@/Layouts/PublicLayout.vue';
-import { 
-  ArrowLeft, 
-  ExternalLink, 
-  Briefcase, 
-  User, 
-  Calendar, 
-  Sparkles, 
-  Layers 
+import SeoHead from '@/Components/SeoHead.vue';
+import {
+  ArrowLeft,
+  ExternalLink,
+  Briefcase,
+  User,
+  Calendar,
+  Sparkles,
+  Layers
 } from 'lucide-vue-next';
 
-defineProps({
+const props = defineProps({
   portfolio: {
     type: Object,
     required: true
   },
 });
+
+const portfolioItemSchema = computed(() => ({
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'CreativeWork',
+      '@id': `https://solmir.ir/portfolio/${props.portfolio.slug}#work`,
+      'name': props.portfolio.title,
+      'description': props.portfolio.description,
+      'genre': props.portfolio.category,
+      'author': {
+        '@type': 'Organization',
+        'name': 'Solmir',
+        'url': 'https://solmir.ir',
+      },
+    },
+    {
+      '@type': 'BreadcrumbList',
+      'itemListElement': [
+        {
+          '@type': 'ListItem',
+          'position': 1,
+          'name': 'صفحه اصلی',
+          'item': 'https://solmir.ir',
+        },
+        {
+          '@type': 'ListItem',
+          'position': 2,
+          'name': 'نمونه‌کارها',
+          'item': 'https://solmir.ir/portfolio',
+        },
+        {
+          '@type': 'ListItem',
+          'position': 3,
+          'name': props.portfolio.title,
+          'item': `https://solmir.ir/portfolio/${props.portfolio.slug}`,
+        },
+      ],
+    },
+  ],
+}));
 </script>
 
 <template>
-  <Head :title="`${portfolio.title} | نمونه‌کار آژانس سلمیر`" />
-  
+  <SeoHead
+    :title="`${portfolio.title} | نمونه‌کار آژانس سلمیر`"
+    :description="portfolio.description"
+    :canonical="`https://solmir.ir/portfolio/${portfolio.slug}`"
+    :schema="portfolioItemSchema"
+  />
+
   <PublicLayout>
     <div class="py-12 lg:py-20 bg-slate-50">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
+
         <!-- Back Link -->
-        <Link 
-          href="/portfolio" 
+        <Link
+          :href="route('portfolio.index')"
           class="inline-flex items-center gap-2 text-sm font-bold text-slate-600 hover:text-blue-600 mb-8 bg-white border border-slate-200 px-4 py-2 rounded-xl transition"
         >
           <ArrowLeft class="w-4 h-4 rotate-180" />
@@ -36,19 +84,20 @@ defineProps({
         </Link>
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
-          
+
           <!-- Main Content (2 cols) -->
           <div class="lg:col-span-2 space-y-8">
-            
+
             <!-- Project Image or Modern Mockup -->
             <div class="rounded-3xl overflow-hidden border border-slate-200 bg-white shadow-xl">
-              <img 
-                v-if="portfolio.image" 
-                :src="'/storage/' + portfolio.image" 
+              <img
+                v-if="portfolio.image"
+                :src="portfolio.image.startsWith('http') ? portfolio.image : '/storage/' + portfolio.image"
                 :alt="portfolio.title"
+                fetchpriority="high"
                 class="w-full max-h-[500px] object-cover"
               />
-              
+
               <!-- Image unavailable -->
               <div v-else class="flex h-64 items-center justify-center bg-slate-100 p-8 text-center text-sm text-slate-500">تصویری برای این پروژه ثبت نشده است.</div>
             </div>
@@ -106,10 +155,10 @@ defineProps({
 
               <!-- Live URL Button -->
               <div v-if="portfolio.url" class="pt-4 border-t border-slate-100">
-                <a 
-                  :href="portfolio.url" 
-                  target="_blank" 
-                  rel="noopener"
+                <a
+                  :href="portfolio.url"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   class="w-full flex items-center justify-center gap-2 py-3.5 px-4 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs shadow-md shadow-blue-500/20 transition"
                 >
                   <ExternalLink class="w-4 h-4" />
@@ -119,8 +168,8 @@ defineProps({
 
               <!-- Start similar project CTA -->
               <div class="pt-4 border-t border-slate-100">
-                <Link 
-                  :href="route('orders.create')" 
+                <Link
+                  :href="route('orders.create')"
                   class="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-slate-50 hover:bg-blue-50 text-blue-700 font-bold text-xs border border-slate-200 hover:border-blue-300 transition"
                 >
                   <Sparkles class="w-4 h-4" />

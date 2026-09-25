@@ -1,5 +1,6 @@
 <template>
   <div class="min-h-screen bg-slate-50 flex font-sans text-slate-800" dir="rtl">
+    <SeoHead noindex />
     <FlashMessages />
 
     <!-- Sidebar -->
@@ -83,14 +84,14 @@
           </button>
           <h2 class="font-bold text-slate-800 text-sm sm:text-base">سیستم مدیریت سلمیر</h2>
         </div>
-        
+
         <div class="flex items-center gap-4">
-          <div class="flex items-center gap-2">
+          <Link href="/dashboard/profile" class="flex items-center gap-2 hover:opacity-80 transition">
             <div class="w-7 h-7 rounded-lg bg-blue-100 text-blue-700 flex items-center justify-center font-bold text-xs">
               {{ user?.name?.charAt(0) || 'م' }}
             </div>
             <span class="text-xs font-bold text-slate-700">{{ user?.name }}</span>
-          </div>
+          </Link>
 
           <Link
             href="/logout"
@@ -115,19 +116,20 @@
 import { ref, computed } from 'vue';
 import { Link, usePage } from '@inertiajs/vue3';
 import FlashMessages from '@/Components/FlashMessages.vue';
-import { 
-  LayoutDashboard, 
-  Users, 
-  Layers, 
-  Briefcase, 
-  ShoppingBag, 
-  MessageSquare, 
-  Mail, 
-  LogOut, 
-  Globe, 
-  ShieldCheck, 
-  Menu, 
-  X 
+import SeoHead from '@/Components/SeoHead.vue';
+import {
+  LayoutDashboard,
+  Users,
+  Layers,
+  Briefcase,
+  ShoppingBag,
+  MessageSquare,
+  Mail,
+  LogOut,
+  Globe,
+  ShieldCheck,
+  Menu,
+  X
 } from 'lucide-vue-next';
 
 const page = usePage();

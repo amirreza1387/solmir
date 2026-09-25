@@ -1,3 +1,4 @@
+import 'vazirmatn/Vazirmatn-font-face.css';
 import '../css/app.css';
 
 import { createApp, h } from 'vue';

@@ -1,20 +1,27 @@
 <script setup>
 import { Head, Link, useForm, usePage } from '@inertiajs/vue3';
 import AppLayout from '@/Layouts/AppLayout.vue';
-import { 
-  PlusCircle, 
-  ArrowLeft, 
-  UploadCloud, 
-  Calendar, 
-  Coins, 
-  Laptop, 
-  Smartphone, 
-  Search, 
-  Palette, 
-  Code2, 
-  CheckCircle2, 
-  Sparkles 
+import { ref } from 'vue';
+import {
+  PlusCircle,
+  ArrowLeft,
+  UploadCloud,
+  Calendar,
+  Coins,
+  Laptop,
+  Smartphone,
+  Search,
+  Palette,
+  Code2,
+  CheckCircle2,
+  Sparkles,
+  FileText,
+  Trash2,
+  Loader2,
+  AlertCircle
 } from 'lucide-vue-next';
+
+const fileError = ref('');
 
 const form = useForm({
   title: '',
@@ -24,6 +31,42 @@ const form = useForm({
   deadline: '',
   attachments: []
 });
+
+const formatFileSize = (bytes) => {
+  if (!bytes) return '0 B';
+  const k = 1024;
+  const sizes = ['B', 'KB', 'MB', 'GB'];
+  const i = Math.floor(Math.log(bytes) / Math.log(k));
+  return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
+};
+
+const handleFileUpload = (e) => {
+  fileError.value = '';
+  const selectedFiles = Array.from(e.target.files);
+  const maxBytes = 10 * 1024 * 1024; // 10MB
+
+  const oversized = selectedFiles.find(file => file.size > maxBytes);
+  if (oversized) {
+    fileError.value = `حجم فایل "${oversized.name}" بیشتر از حد مجاز ۱۰ مگابایت است.`;
+    return;
+  }
+
+  const combined = [...form.attachments, ...selectedFiles];
+  if (combined.length > 5) {
+    fileError.value = 'حداکثر می‌توانید ۵ فایل ضمیمه کنید.';
+    form.attachments = combined.slice(0, 5);
+    return;
+  }
+
+  form.attachments = combined;
+  // reset file input
+  e.target.value = '';
+};
+
+const removeAttachment = (index) => {
+  fileError.value = '';
+  form.attachments.splice(index, 1);
+};
 
 const serviceOptions = [
   { name: 'طراحی وب‌سایت شرکتی', icon: Laptop, desc: 'معرفی خدمات و پرستیژ برند' },
@@ -60,13 +103,10 @@ if (serviceOptions.some(option => option.name === selectedService) && estimateDe
 }
 
 const submit = () => {
+  if (fileError.value) return;
   form.post(route('orders.store'), {
     preserveScroll: true,
   });
-};
-
-const handleFileUpload = (e) => {
-  form.attachments = Array.from(e.target.files);
 };
 </script>
 
@@ -75,7 +115,7 @@ const handleFileUpload = (e) => {
 
   <AppLayout>
     <div class="max-w-4xl mx-auto space-y-6">
-      
+
       <!-- Top Title -->
       <div class="flex items-center justify-between">
         <div>
@@ -87,8 +127,8 @@ const handleFileUpload = (e) => {
           <p class="text-xs text-slate-500 mt-1">مشخصات اولیه پروژه خود را وارد کنید تا کارشناسان ما بررسی و زمان‌بندی را آغاز کنند.</p>
         </div>
 
-        <Link 
-          :href="route('orders.index')" 
+        <Link
+          :href="route('orders.index')"
           class="text-xs font-bold text-slate-600 hover:text-blue-600 bg-white border border-slate-200 px-4 py-2.5 rounded-xl transition flex items-center gap-1.5"
         >
           <span>مشاهده سفارشات من</span>
@@ -103,21 +143,21 @@ const handleFileUpload = (e) => {
       </div>
       <div class="bg-white rounded-3xl p-6 sm:p-10 border border-slate-200/90 shadow-sm">
         <form @submit.prevent="submit" class="space-y-8">
-          
+
           <!-- 1. Service Type Selector -->
           <div>
             <label class="block text-sm font-bold text-slate-900 mb-3">
               ۱. نوع خدمت مورد نظر خود را انتخاب کنید:
             </label>
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
-              <button 
+              <button
                 v-for="service in serviceOptions"
                 :key="service.name"
                 type="button"
                 @click="form.service_type = service.name"
                 class="p-4 rounded-2xl border text-right transition-all flex flex-col justify-between"
-                :class="form.service_type === service.name 
-                  ? 'border-blue-600 bg-blue-50/70 text-blue-900 ring-2 ring-blue-500/20 shadow-xs' 
+                :class="form.service_type === service.name
+                  ? 'border-blue-600 bg-blue-50/70 text-blue-900 ring-2 ring-blue-500/20 shadow-xs'
                   : 'border-slate-200 text-slate-700 hover:bg-slate-50'"
               >
                 <div class="flex items-center justify-between mb-2">
@@ -136,10 +176,10 @@ const handleFileUpload = (e) => {
             <label for="title" class="block text-sm font-bold text-slate-900 mb-2">
               ۲. عنوان یا نام پروژه *
             </label>
-            <input 
+            <input
               id="title"
               v-model="form.title"
-              type="text" 
+              type="text"
               required
               placeholder="مثال: طراحی وب‌سایت فروش قطعات خودرو آرتین"
               class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 text-sm outline-none transition"
@@ -152,7 +192,7 @@ const handleFileUpload = (e) => {
             <label for="description" class="block text-sm font-bold text-slate-900 mb-2">
               ۳. توضیحات و نیازمندی‌های پروژه *
             </label>
-            <textarea 
+            <textarea
               id="description"
               v-model="form.description"
               rows="5"
@@ -170,7 +210,7 @@ const handleFileUpload = (e) => {
                 <Coins class="w-4 h-4 text-blue-600" />
                 <span>محدوده بودجه تقریبی</span>
               </label>
-              <select 
+              <select
                 v-model="form.budget_range"
                 class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 text-sm outline-none transition bg-white"
               >
@@ -183,7 +223,7 @@ const handleFileUpload = (e) => {
                 <Calendar class="w-4 h-4 text-blue-600" />
                 <span>تاریخ یا مهلت مدنظر (اختیاری)</span>
               </label>
-              <input 
+              <input
                 id="deadline"
                 v-model="form.deadline"
                 type="date"
@@ -198,33 +238,71 @@ const handleFileUpload = (e) => {
               ۵. فایل‌های پیوست، مستندات، یا لوگو (اختیاری)
             </label>
             <div class="border-2 border-dashed border-slate-300 hover:border-blue-400 rounded-2xl p-6 text-center bg-slate-50 transition cursor-pointer relative">
-              <input 
-                type="file" 
+              <input
+                type="file"
                 multiple
                 @change="handleFileUpload"
                 class="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
               />
               <UploadCloud class="w-8 h-8 text-blue-500 mx-auto mb-2" />
               <div class="text-xs font-bold text-slate-700">کلیک کنید یا فایل‌ها را اینجا بکشید</div>
-              <div class="text-[11px] text-slate-400 mt-1">فرمت‌های مجاز: PDF, PNG, JPG, ZIP, DOCX (حداکثر ۲۰ مگابایت)</div>
-              
-              <div v-if="form.attachments && form.attachments.length > 0" class="mt-4 pt-3 border-t border-slate-200">
-                <span class="text-xs font-bold text-emerald-600">
-                  {{ form.attachments.length }} فایل انتخاب شده است
-                </span>
+              <div class="text-[11px] text-slate-400 mt-1">فرمت‌های مجاز: PDF, PNG, JPG, ZIP, DOCX (حداکثر ۵ فایل، هرکدام حداکثر ۱۰ مگابایت)</div>
+            </div>
+
+            <!-- Client-side File Error Alert -->
+            <div v-if="fileError" class="mt-3 p-3 bg-red-50 border border-red-200 text-red-700 text-xs rounded-xl flex items-center gap-2">
+              <AlertCircle class="w-4 h-4 shrink-0 text-red-600" />
+              <span>{{ fileError }}</span>
+            </div>
+
+            <!-- Server-side File Errors -->
+            <div v-if="form.errors.attachments" class="mt-2 text-xs text-red-500">
+              {{ form.errors.attachments }}
+            </div>
+            <template v-for="(error, key) in form.errors" :key="key">
+              <div v-if="key.startsWith('attachments.')" class="mt-1 text-xs text-red-500">
+                {{ error }}
+              </div>
+            </template>
+
+            <!-- Selected Files List -->
+            <div v-if="form.attachments && form.attachments.length > 0" class="mt-4 space-y-2">
+              <div class="text-xs font-bold text-slate-700 mb-2">فایل‌های انتخاب‌شده ({{ form.attachments.length }} از ۵):</div>
+              <div
+                v-for="(file, index) in form.attachments"
+                :key="index"
+                class="flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-slate-200 text-xs"
+              >
+                <div class="flex items-center gap-2 min-w-0">
+                  <FileText class="w-4 h-4 text-blue-600 shrink-0" />
+                  <span class="font-medium text-slate-800 truncate">{{ file.name }}</span>
+                  <span class="text-[10px] font-mono text-slate-400 shrink-0 bg-slate-200/70 px-1.5 py-0.5 rounded">
+                    {{ formatFileSize(file.size) }}
+                  </span>
+                </div>
+
+                <button
+                  type="button"
+                  @click="removeAttachment(index)"
+                  class="text-red-500 hover:text-red-700 p-1 rounded-lg hover:bg-red-50 transition cursor-pointer shrink-0"
+                  title="حذف فایل"
+                >
+                  <Trash2 class="w-4 h-4" />
+                </button>
               </div>
             </div>
           </div>
 
           <!-- Submit Button -->
           <div class="pt-4 border-t border-slate-100 flex items-center justify-between">
-            <button 
+            <button
               type="submit"
-              :disabled="form.processing"
-              class="ui-button ui-button-primary"
+              :disabled="form.processing || !!fileError"
+              class="ui-button ui-button-primary disabled:opacity-50"
             >
-              <PlusCircle class="w-4 h-4" />
-              <span>{{ form.processing ? 'در حال ثبت سفارش...' : 'تایید و ثبت نهایی سفارش' }}</span>
+              <Loader2 v-if="form.processing" class="w-4 h-4 animate-spin ml-1.5" />
+              <PlusCircle v-else class="w-4 h-4" />
+              <span>{{ form.processing ? 'در حال ارسال و ثبت سفارش...' : 'تایید و ثبت نهایی سفارش' }}</span>
             </button>
 
             <span class="text-xs text-slate-400">پس از ثبت، تاییدیه در پنل برای شما نمایش می‌یابد</span>

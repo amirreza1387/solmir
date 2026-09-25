@@ -32,4 +32,17 @@ class Portfolio extends Model
     {
         $query->where('is_featured', true);
     }
+
+    protected static function booted(): void
+    {
+        static::saved(function () {
+            cache()->forget('public.portfolios.featured');
+            cache()->forget('public.portfolios.all');
+        });
+
+        static::deleted(function () {
+            cache()->forget('public.portfolios.featured');
+            cache()->forget('public.portfolios.all');
+        });
+    }
 }

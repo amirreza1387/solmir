@@ -13,7 +13,7 @@ class TicketController extends Controller
 {
     public function index(): Response
     {
-        $tickets = Ticket::with('user')->withCount('replies')->latest()->paginate(15);
+        $tickets = Ticket::with('user')->withCount('replies')->latest()->paginate(15)->withQueryString();
 
         return Inertia::render('Admin/Tickets/Index', [
             'tickets' => $tickets,
@@ -32,9 +32,10 @@ class TicketController extends Controller
     public function reply(Request $request, Ticket $ticket): RedirectResponse
     {
         $validated = $request->validate([
-            'message' => ['required', 'string'],
+            'message' => ['required', 'string', 'max:5000'],
         ], [
             'message.required' => 'متن پاسخ الزامی است.',
+            'message.max' => 'طول متن پاسخ نمی‌تواند بیشتر از ۵۰۰۰ کاراکتر باشد.',
         ]);
 
         $ticket->replies()->create([

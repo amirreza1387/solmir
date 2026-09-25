@@ -1,14 +1,14 @@
 <script setup>
 import { Link } from '@inertiajs/vue3';
-import { 
-  Sparkles, 
-  Mail, 
-  Phone, 
-  MapPin, 
-  ArrowUpRight, 
-  ShieldCheck, 
-  Clock, 
-  CheckCircle2 
+import {
+  Sparkles,
+  Mail,
+  Phone,
+  MapPin,
+  ArrowUpRight,
+  ShieldCheck,
+  Clock,
+  CheckCircle2
 } from 'lucide-vue-next';
 </script>
 
@@ -20,13 +20,11 @@ import {
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 lg:gap-8 pb-12 border-b border-slate-800/80">
-        
+
         <!-- Brand Info (2 cols on lg) -->
         <div class="lg:col-span-2 space-y-5">
           <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-500 flex items-center justify-center text-white shadow-lg shadow-blue-500/20">
-              <Sparkles class="w-5 h-5" />
-            </div>
+            <img src="/favicon-32x32.png" alt="سلمیر" class="w-10 h-10 rounded-xl object-contain shadow-md" width="40" height="40" />
             <span class="text-2xl font-black tracking-tight text-white">
               سلمیر
             </span>
@@ -100,14 +98,14 @@ import {
               <Phone class="w-4 h-4 text-blue-400 shrink-0 mt-0.5" />
               <div class="flex flex-col">
                 <span class="text-slate-400 text-xs">تماس مستقیم:</span>
-                <span class="text-white font-mono font-medium dir-ltr text-right">۰۲۱-۸۸۹۹۰۰۱۱</span>
+                <a href="tel:09179278747" class="text-white font-mono font-medium hover:text-blue-400 transition dir-ltr text-right">۰۹۱۷۹۲۷۸۷۴۷</a>
               </div>
             </li>
             <li class="flex items-start gap-2.5">
               <Mail class="w-4 h-4 text-blue-400 shrink-0 mt-0.5" />
               <div class="flex flex-col">
-                <span class="text-slate-400 text-xs">ایمیل پشتیبانی:</span>
-                <span class="text-white font-mono font-medium">info@solmir.com</span>
+                <span class="text-slate-400 text-xs">ایمیل کاری و رسمی:</span>
+                <a href="mailto:solmirofc@gmail.com" class="text-white font-mono font-medium hover:text-blue-400 transition dir-ltr text-right">solmirofc@gmail.com</a>
               </div>
             </li>
             <li class="flex items-start gap-2.5">

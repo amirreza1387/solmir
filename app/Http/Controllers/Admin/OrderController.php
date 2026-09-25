@@ -13,7 +13,7 @@ class OrderController extends Controller
 {
     public function index(): Response
     {
-        $orders = Order::with('user')->latest()->paginate(15);
+        $orders = Order::with('user')->latest()->paginate(15)->withQueryString();
 
         return Inertia::render('Admin/Orders/Index', [
             'orders' => $orders,
@@ -23,6 +23,7 @@ class OrderController extends Controller
     public function show(Order $order): Response
     {
         $order->load(['user', 'attachments']);
+        $order->makeVisible('admin_notes');
 
         return Inertia::render('Admin/Orders/Show', [
             'order' => $order,

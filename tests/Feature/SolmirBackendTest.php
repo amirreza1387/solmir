@@ -3,12 +3,14 @@
 namespace Tests\Feature;
 
 use App\Models\Order;
+use App\Models\OrderAttachment;
 use App\Models\Portfolio;
 use App\Models\Service;
 use App\Models\Ticket;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
@@ -242,5 +244,172 @@ class SolmirBackendTest extends TestCase
             ->get("/dashboard/orders/{$order->id}/attachments/{$attachment->id}");
         $response->assertStatus(200);
         $response->assertHeader('Content-Disposition');
+    }
+
+    public function test_customer_cannot_see_admin_notes(): void
+    {
+        $user = User::factory()->create();
+        $order = Order::factory()->create([
+            'user_id' => $user->id,
+            'admin_notes' => 'INTERNAL_SECRET_ADMIN_NOTE_12345',
+        ]);
+
+        $response = $this->actingAs($user)->get("/dashboard/orders/{$order->id}");
+
+        $response->assertStatus(200);
+        $response->assertDontSee('INTERNAL_SECRET_ADMIN_NOTE_12345');
+        $this->assertArrayNotHasKey('admin_notes', $response->inertiaProps('order'));
+    }
+
+    public function test_admin_can_see_admin_notes(): void
+    {
+        $admin = User::factory()->create(['role' => 'admin']);
+        $user = User::factory()->create();
+        $order = Order::factory()->create([
+            'user_id' => $user->id,
+            'admin_notes' => 'INTERNAL_SECRET_ADMIN_NOTE_12345',
+        ]);
+
+        $response = $this->actingAs($admin)->get("/admin/orders/{$order->id}");
+
+        $response->assertStatus(200);
+        $this->assertEquals('INTERNAL_SECRET_ADMIN_NOTE_12345', $response->inertiaProps('order.admin_notes'));
+    }
+
+    public function test_invalid_login_fails_and_rate_limits(): void
+    {
+        for ($i = 0; $i < 6; $i++) {
+            $response = $this->post('/login', [
+                'email' => 'wrong@solmir.com',
+                'password' => 'wrongpass',
+            ]);
+            $response->assertSessionHasErrors('email');
+        }
+
+        // 7th attempt hits throttle
+        $blocked = $this->post('/login', [
+            'email' => 'wrong@solmir.com',
+            'password' => 'wrongpass',
+        ]);
+        $blocked->assertStatus(429);
+    }
+
+    public function test_password_reset_flow(): void
+    {
+        $user = User::factory()->create(['email' => 'resetme@solmir.com']);
+
+        // Request reset link
+        $response = $this->post('/forgot-password', [
+            'email' => 'resetme@solmir.com',
+        ]);
+        $response->assertSessionHas('status');
+
+        $token = Password::createToken($user);
+
+        // Reset password with valid token
+        $resetResponse = $this->post('/reset-password', [
+            'token' => $token,
+            'email' => 'resetme@solmir.com',
+            'password' => 'NewSecurePassword123!',
+            'password_confirmation' => 'NewSecurePassword123!',
+        ]);
+
+        $resetResponse->assertRedirect('/login');
+        $resetResponse->assertSessionHas('success');
+
+        // Confirm new password works
+        $loginResponse = $this->post('/login', [
+            'email' => 'resetme@solmir.com',
+            'password' => 'NewSecurePassword123!',
+        ]);
+        $loginResponse->assertRedirect('/dashboard');
+        $this->assertAuthenticatedAs($user);
+    }
+
+    public function test_user_soft_delete_preserves_historical_orders_and_tickets(): void
+    {
+        $user = User::factory()->create();
+        $order = Order::factory()->create(['user_id' => $user->id]);
+        $ticket = Ticket::factory()->create(['user_id' => $user->id]);
+
+        $user->delete();
+
+        // User is soft deleted
+        $this->assertSoftDeleted('users', ['id' => $user->id]);
+
+        // Historical orders and tickets are intact and NOT cascade-destroyed
+        $this->assertDatabaseHas('orders', ['id' => $order->id]);
+        $this->assertDatabaseHas('tickets', ['id' => $ticket->id]);
+    }
+
+    public function test_admin_cannot_delete_last_admin(): void
+    {
+        // Ensure only one admin exists
+        User::where('role', 'admin')->delete();
+        $soleAdmin = User::factory()->create(['role' => 'admin']);
+
+        // Attempting to delete the sole admin from another context or via self-delete check
+        $otherAdminAttempt = User::factory()->create(['role' => 'user']);
+        // Acting as sole admin attempting delete on self
+        $response = $this->actingAs($soleAdmin)->delete("/admin/users/{$soleAdmin->id}");
+        $response->assertSessionHas('error');
+        $this->assertDatabaseHas('users', ['id' => $soleAdmin->id]);
+    }
+
+    public function test_oversized_attachment_is_rejected(): void
+    {
+        $user = User::factory()->create();
+        Storage::fake('local');
+
+        // 11 MB file exceeds 10 MB (10240 KB) limit
+        $oversizedFile = UploadedFile::fake()->create('large_doc.pdf', 11264, 'application/pdf');
+
+        $response = $this->actingAs($user)->post('/dashboard/orders', [
+            'title' => 'سفارش فایل حجیم',
+            'service_type' => 'طراحی سایت',
+            'description' => 'توضیحات تست حجم',
+            'attachments' => [$oversizedFile],
+        ]);
+
+        $response->assertSessionHasErrors('attachments.0');
+    }
+
+    public function test_attachment_filename_is_sanitized(): void
+    {
+        $user = User::factory()->create();
+        Storage::fake('local');
+
+        $dirtyFile = UploadedFile::fake()->create('../../evil<>;"name.pdf', 100, 'application/pdf');
+
+        $response = $this->actingAs($user)->post('/dashboard/orders', [
+            'title' => 'سفارش فایل با نام کثیف',
+            'service_type' => 'طراحی سایت',
+            'description' => 'توضیحات تست پاکسازی',
+            'attachments' => [$dirtyFile],
+        ]);
+
+        $response->assertSessionHasNoErrors();
+        $attachment = OrderAttachment::latest()->first();
+        $this->assertNotNull($attachment);
+        $this->assertStringNotContainsString('../', $attachment->file_name);
+        $this->assertStringNotContainsString('<', $attachment->file_name);
+    }
+
+    public function test_cannot_reply_to_closed_ticket(): void
+    {
+        $user = User::factory()->create();
+        $ticket = Ticket::factory()->create([
+            'user_id' => $user->id,
+            'status' => 'closed',
+        ]);
+
+        $response = $this->actingAs($user)->post("/dashboard/tickets/{$ticket->id}/reply", [
+            'message' => 'تلاش برای پاسخ به تیکت بسته شده',
+        ]);
+
+        $response->assertStatus(403);
+        $this->assertDatabaseMissing('ticket_replies', [
+            'message' => 'تلاش برای پاسخ به تیکت بسته شده',
+        ]);
     }
 }

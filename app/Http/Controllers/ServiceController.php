@@ -10,7 +10,9 @@ class ServiceController extends Controller
 {
     public function index(): Response
     {
-        $services = Service::active()->orderBy('sort_order')->get();
+        $services = cache()->remember('public.services.all', 3600, function () {
+            return Service::active()->orderBy('sort_order')->get()->toArray();
+        });
 
         return Inertia::render('Public/Services', [
             'services' => $services,

@@ -1,19 +1,22 @@
 <script setup>
-import { Head, Link } from '@inertiajs/vue3';
+import { computed } from 'vue';
+import { Link } from '@inertiajs/vue3';
 import PublicLayout from '@/Layouts/PublicLayout.vue';
-import { 
-  ArrowLeft, 
-  Sparkles, 
-  CheckCircle2, 
-  ShieldCheck, 
-  Clock, 
-  PlusCircle, 
+import SeoHead from '@/Components/SeoHead.vue';
+import {
+  ArrowLeft,
+  Sparkles,
+  CheckCircle2,
+  ShieldCheck,
+  Clock,
+  PlusCircle,
   MessageSquare,
   Layers,
-  Code2
+  Code2,
+  Workflow
 } from 'lucide-vue-next';
 
-defineProps({
+const props = defineProps({
   service: {
     type: Object,
     required: true,
@@ -24,20 +27,65 @@ const workSteps = [
   { step: '۰۱', title: 'مشاوره و تحلیل نیازها', desc: 'بررسی دقیق حوزه فعالیت، اهداف تجاری و تحلیل رقبا' },
   { step: '۰۲', title: 'طراحی پروتوتایپ و UI/UX', desc: 'طراحی ساختار بصری، وایرفریم‌ها و پروتوتایپ تعاملی در فیگما' },
   { step: '۰۳', title: 'توسعه فنی و پیاده‌سازی', desc: 'کدنویسی تمیز با فریم‌ورک‌های مدرن و استانداردهای روز جهانی' },
-  { step: '۰۴', title: 'تست کیفی و تحویل نهایی', desc: 'ارزیابی امنیتی، تست سرعت و استقرار روی سرور پروداکشن' },
+  { step: '۰۴', title: 'تست کیفی و استقرار نهایی', desc: 'ارزیابی امنیتی، تست سرعت و استقرار روی سرور پروداکشن' },
 ];
+
+const serviceSchema = computed(() => ({
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Service',
+      '@id': `https://solmir.ir/services/${props.service.slug}#service`,
+      'name': props.service.title,
+      'description': props.service.description,
+      'provider': {
+        '@type': 'Organization',
+        'name': 'Solmir',
+        'url': 'https://solmir.ir',
+      },
+    },
+    {
+      '@type': 'BreadcrumbList',
+      'itemListElement': [
+        {
+          '@type': 'ListItem',
+          'position': 1,
+          'name': 'صفحه اصلی',
+          'item': 'https://solmir.ir',
+        },
+        {
+          '@type': 'ListItem',
+          'position': 2,
+          'name': 'خدمات',
+          'item': 'https://solmir.ir/services',
+        },
+        {
+          '@type': 'ListItem',
+          'position': 3,
+          'name': props.service.title,
+          'item': `https://solmir.ir/services/${props.service.slug}`,
+        },
+      ],
+    },
+  ],
+}));
 </script>
 
 <template>
-  <Head :title="`${service.title} | خدمات تخصصی آژانس سلمیر`" />
+  <SeoHead
+    :title="`${service.title} | خدمات تخصصی آژانس سلمیر`"
+    :description="service.description"
+    :canonical="`https://solmir.ir/services/${service.slug}`"
+    :schema="serviceSchema"
+  />
 
   <PublicLayout>
     <div class="py-12 lg:py-20 bg-slate-50">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
+
         <!-- Back Link -->
-        <Link 
-          href="/services" 
+        <Link
+          :href="route('services.index')"
           class="inline-flex items-center gap-2 text-sm font-bold text-slate-600 hover:text-blue-600 mb-8 bg-white border border-slate-200 px-4 py-2 rounded-xl transition"
         >
           <ArrowLeft class="w-4 h-4 rotate-180" />
@@ -45,10 +93,10 @@ const workSteps = [
         </Link>
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
-          
+
           <!-- Main Content (2 cols) -->
           <div class="lg:col-span-2 space-y-8">
-            
+
             <!-- Hero Card -->
             <div class="bg-white rounded-3xl p-8 sm:p-12 border border-slate-200 shadow-sm relative overflow-hidden">
               <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-blue-600 to-indigo-600 text-white flex items-center justify-center mb-6 shadow-md shadow-blue-500/20">
@@ -72,13 +120,13 @@ const workSteps = [
 
             <div class="bg-white rounded-3xl p-8 border border-slate-200 shadow-xs space-y-6">
               <div class="flex items-center gap-2 pb-4 border-b border-slate-100">
-                <Clock class="w-5 h-5 text-blue-600" />
+                <Workflow class="w-5 h-5 text-blue-600" />
                 <h3 class="text-xl font-bold text-slate-900">روند معمول همکاری</h3>
               </div>
 
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div 
-                  v-for="step in workSteps" 
+                <div
+                  v-for="step in workSteps"
                   :key="step.step"
                   class="p-5 rounded-2xl bg-slate-50 border border-slate-100 space-y-2"
                 >
@@ -104,16 +152,16 @@ const workSteps = [
               </div>
 
               <div class="space-y-3">
-                <Link 
-                  :href="route('orders.create')" 
+                <Link
+                  :href="route('orders.create')"
                   class="ui-button ui-button-primary w-full"
                 >
                   <PlusCircle class="w-4 h-4" />
                   <span>ثبت آنلاین سفارش پروژه</span>
                 </Link>
 
-                <Link 
-                  :href="route('contact.index')" 
+                <Link
+                  :href="route('contact.index')"
                   class="w-full flex items-center justify-center gap-2 py-3.5 px-4 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-sm transition"
                 >
                   <MessageSquare class="w-4 h-4 text-slate-500" />

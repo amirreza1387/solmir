@@ -13,7 +13,7 @@ class UserController extends Controller
 {
     public function index(): Response
     {
-        $users = User::latest()->paginate(15);
+        $users = User::latest()->paginate(15)->withQueryString();
 
         return Inertia::render('Admin/Users/Index', [
             'users' => $users,
@@ -30,6 +30,10 @@ class UserController extends Controller
             return back()->with('error', 'شما نمی‌توانید نقش حساب کاربری خود را تنزل دهید.');
         }
 
+        if ($user->role === 'admin' && $validated['role'] !== 'admin' && User::where('role', 'admin')->count() <= 1) {
+            return back()->with('error', 'امکان تنزل نقش آخرین مدیر سیستم وجود ندارد.');
+        }
+
         $user->update($validated);
 
         return back()->with('success', 'نقش کاربر با موفقیت بروزرسانی شد.');
@@ -41,8 +45,12 @@ class UserController extends Controller
             return back()->with('error', 'شما نمی‌توانید حساب کاربری خود را حذف کنید.');
         }
 
+        if ($user->role === 'admin' && User::where('role', 'admin')->count() <= 1) {
+            return back()->with('error', 'امکان حذف آخرین مدیر سیستم وجود ندارد.');
+        }
+
         $user->delete();
 
-        return back()->with('success', 'کاربر با موفقیت حذف شد.');
+        return back()->with('success', 'کاربر با موفقیت غیرفعال/حذف شد.');
     }
 }

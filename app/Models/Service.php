@@ -30,4 +30,17 @@ class Service extends Model
     {
         $query->where('is_active', true);
     }
+
+    protected static function booted(): void
+    {
+        static::saved(function () {
+            cache()->forget('public.services.active');
+            cache()->forget('public.services.all');
+        });
+
+        static::deleted(function () {
+            cache()->forget('public.services.active');
+            cache()->forget('public.services.all');
+        });
+    }
 }

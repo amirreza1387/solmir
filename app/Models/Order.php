@@ -8,12 +8,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
 class Order extends Model
 {
     /** @use HasFactory<OrderFactory> */
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
         'user_id',
@@ -24,6 +25,13 @@ class Order extends Model
         'budget_range',
         'deadline',
         'status',
+        'admin_notes',
+    ];
+
+    /**
+     * The attributes that should be hidden for serialization to prevent data leaks.
+     */
+    protected $hidden = [
         'admin_notes',
     ];
 
@@ -42,8 +50,10 @@ class Order extends Model
         });
 
         static::deleting(function (Order $order) {
-            foreach ($order->attachments as $attachment) {
-                $attachment->delete();
+            if ($order->isForceDeleting()) {
+                foreach ($order->attachments as $attachment) {
+                    $attachment->delete();
+                }
             }
         });
     }

@@ -1,8 +1,9 @@
 <script setup>
 import { ref, computed } from 'vue';
-import { Head, Link } from '@inertiajs/vue3';
+import { Link } from '@inertiajs/vue3';
 import PublicLayout from '@/Layouts/PublicLayout.vue';
-import { Search, CheckCircle2 } from 'lucide-vue-next';
+import SeoHead from '@/Components/SeoHead.vue';
+import { Search, CheckCircle2, Sparkles } from 'lucide-vue-next';
 import ServiceCard from '@/Components/ServiceCard.vue';
 
 const props = defineProps({
@@ -16,17 +17,50 @@ const searchQuery = ref('');
 
 const filteredServices = computed(() => {
   return props.services.filter(s => {
-    const matchesSearch = s.title.toLowerCase().includes(searchQuery.value.toLowerCase()) || 
+    const matchesSearch = s.title.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
                           s.description.toLowerCase().includes(searchQuery.value.toLowerCase());
     return matchesSearch;
   });
 });
 
+const servicesSchema = computed(() => ({
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'CollectionPage',
+      '@id': 'https://solmir.ir/services#webpage',
+      'url': 'https://solmir.ir/services',
+      'name': 'خدمات مهندسی وب و طراحی دیجیتال | سلمیر',
+      'description': 'فهرست خدمات تخصصی آژانس سلمیر شامل طراحی وب‌سایت اختصاصی، طراحی UI/UX، توسعه اپلیکیشن و سامانه‌های تحت وب.',
+      'breadcrumb': {
+        '@type': 'BreadcrumbList',
+        'itemListElement': [
+          {
+            '@type': 'ListItem',
+            'position': 1,
+            'name': 'صفحه اصلی',
+            'item': 'https://solmir.ir',
+          },
+          {
+            '@type': 'ListItem',
+            'position': 2,
+            'name': 'خدمات',
+            'item': 'https://solmir.ir/services',
+          },
+        ],
+      },
+    },
+  ],
+}));
 </script>
 
 <template>
-  <Head title="خدمات مهندسی وب و طراحی دیجیتال | سلمیر" />
-  
+  <SeoHead
+    title="خدمات مهندسی وب و طراحی دیجیتال | سلمیر"
+    description="خدمات تخصصی آژانس مهندسی وب سلمیر شامل طراحی وب‌سایت شرکتی و فروشگاهی، رابط کاربری UI/UX، سامانه‌های وب با معماری Laravel و Vue 3."
+    :schema="servicesSchema"
+  />
+
   <PublicLayout>
     <!-- Header Banner -->
     <div class="relative py-16 lg:py-20 bg-white border-b border-slate-200">
@@ -44,9 +78,9 @@ const filteredServices = computed(() => {
 
         <!-- Search Bar -->
         <div class="max-w-md mx-auto mt-8 relative">
-          <input 
+          <input
             v-model="searchQuery"
-            type="text" 
+            type="text"
             placeholder="جستجو در بین خدمات ما..."
             class="ui-field pr-11"
             aria-label="جستجو در خدمات"
@@ -73,7 +107,7 @@ const filteredServices = computed(() => {
     <!-- Pricing Comparison Tiers -->
     <div class="py-20 bg-white border-t border-slate-200">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
+
         <div class="text-center mb-16">
           <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">پلن‌های استاندارد سلمیر</span>
           <h2 class="text-3xl font-black text-slate-900 mt-2 mb-3">پکیج‌های پیشنهادی متناسب با نیاز شما</h2>
@@ -81,7 +115,7 @@ const filteredServices = computed(() => {
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-          
+
           <!-- Tier 1 -->
           <div class="rounded-3xl p-8 border border-slate-200 bg-white flex flex-col justify-between hover:shadow-xl transition">
             <div>
@@ -139,7 +173,7 @@ const filteredServices = computed(() => {
                 <li class="flex items-center gap-2"><CheckCircle2 class="w-4 h-4 text-emerald-500 shrink-0" /> ۱ سال پشتیبانی و مشاوره مداوم</li>
               </ul>
             </div>
-            <Link href="/contact" class="w-full py-3.5 rounded-xl border border-slate-300 text-slate-800 hover:bg-slate-50 font-bold text-center transition">
+            <Link :href="route('contact.index')" class="w-full py-3.5 rounded-xl border border-slate-300 text-slate-800 hover:bg-slate-50 font-bold text-center transition">
               درخواست جلسه مشاوره
             </Link>
           </div>

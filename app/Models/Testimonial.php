@@ -30,4 +30,15 @@ class Testimonial extends Model
     {
         $query->where('is_active', true);
     }
+
+    protected static function booted(): void
+    {
+        static::saved(function () {
+            cache()->forget('public.testimonials.active');
+        });
+
+        static::deleted(function () {
+            cache()->forget('public.testimonials.active');
+        });
+    }
 }

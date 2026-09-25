@@ -1,23 +1,67 @@
 <script setup>
-import { Head, Link } from '@inertiajs/vue3';
+import { Link } from '@inertiajs/vue3';
 import PublicLayout from '@/Layouts/PublicLayout.vue';
-import { 
-  Sparkles, 
-  Target, 
-  Rocket, 
-  ShieldCheck, 
-  Award, 
-  Users2, 
-  CheckCircle2, 
-  ArrowLeft, 
-  Zap, 
-  Code2 
+import SeoHead from '@/Components/SeoHead.vue';
+import {
+  Sparkles,
+  Target,
+  Rocket,
+  ShieldCheck,
+  Award,
+  Users2,
+  CheckCircle2,
+  ArrowLeft,
+  Zap,
+  Code2
 } from 'lucide-vue-next';
+
+const aboutSchema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'AboutPage',
+      '@id': 'https://solmir.ir/about#webpage',
+      'url': 'https://solmir.ir/about',
+      'name': 'درباره ما | آژانس مهندسی وب سلمیر',
+      'description': 'آژانس مهندسی وب سلمیر؛ تلفیق هنر دیزاین مدرن UI/UX و معماری پایدار نرم‌افزار برای کسب‌وکارهای آینده‌نگر.',
+      'breadcrumb': {
+        '@type': 'BreadcrumbList',
+        'itemListElement': [
+          {
+            '@type': 'ListItem',
+            'position': 1,
+            'name': 'صفحه اصلی',
+            'item': 'https://solmir.ir',
+          },
+          {
+            '@type': 'ListItem',
+            'position': 2,
+            'name': 'درباره ما',
+            'item': 'https://solmir.ir/about',
+          },
+        ],
+      },
+    },
+    {
+      '@type': 'Organization',
+      '@id': 'https://solmir.ir/#organization',
+      'name': 'Solmir',
+      'url': 'https://solmir.ir',
+      'email': 'solmirofc@gmail.com',
+      'telephone': '+989179278747',
+      'description': 'آژانس طراحی وب و مهندسی نرم‌افزار',
+    },
+  ],
+};
 </script>
 
 <template>
-  <Head title="درباره ما | آژانس مهندسی وب سلمیر" />
-  
+  <SeoHead
+    title="درباره ما | آژانس مهندسی وب سلمیر"
+    description="درباره آژانس سلمیر؛ تیمی متشکل از طراحان محصول و مهندسان وب متعهد به خلق پلتفرم‌های سریع، امن، واکنش‌گرا و مقیاس‌پذیر با Laravel و Vue 3."
+    :schema="aboutSchema"
+  />
+
   <PublicLayout>
     <!-- Header Hero -->
     <div class="relative py-16 lg:py-20 bg-white border-b border-slate-200">
@@ -39,7 +83,7 @@ import {
     <div class="py-20 bg-white">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-          
+
           <div class="space-y-6">
             <div class="inline-flex items-center gap-2 text-xs font-bold text-blue-600 bg-blue-50 px-3 py-1 rounded-lg">
               <Target class="w-4 h-4" />
@@ -67,7 +111,7 @@ import {
                 <Rocket class="w-6 h-6" />
               </div>
               <h3 class="text-2xl font-bold">چرا سلمیر انتخابی متفاوت است؟</h3>
-              
+
               <ul class="space-y-4 text-sm text-slate-300">
                 <li class="flex items-start gap-3">
                   <CheckCircle2 class="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
@@ -88,8 +132,8 @@ import {
               </ul>
 
               <div class="pt-4 border-t border-white/10">
-                <Link 
-                  :href="route('orders.create')" 
+                <Link
+                  :href="route('orders.create')"
                   class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-white text-blue-900 font-black text-sm hover:bg-blue-50 transition"
                 >
                   <span>شروع همکاری با تیم سلمیر</span>
@@ -106,7 +150,7 @@ import {
     <!-- Core Values -->
     <div class="py-20 bg-slate-50 border-t border-slate-200">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        
+
         <div class="mb-14">
           <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">ستون‌های موفقیت ما</span>
           <h2 class="text-3xl font-black text-slate-900 mt-2 mb-3">اصول و ارزش‌های کاری سلمیر</h2>

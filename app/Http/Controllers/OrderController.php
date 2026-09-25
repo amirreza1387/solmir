@@ -9,6 +9,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Inertia\Inertia;
 use Inertia\Response;
 use Symfony\Component\HttpFoundation\StreamedResponse;
@@ -20,7 +21,8 @@ class OrderController extends Controller
         $orders = Order::forUser($request->user()->id)
             ->withCount('attachments')
             ->latest()
-            ->get();
+            ->paginate(10)
+            ->withQueryString();
 
         return Inertia::render('Dashboard/Orders/Index', [
             'orders' => $orders,
@@ -48,8 +50,11 @@ class OrderController extends Controller
             foreach ($request->file('attachments') as $file) {
                 // Store on private local disk rather than public
                 $path = $file->store('order_attachments', 'local');
+                $originalName = $file->getClientOriginalName();
+                $cleanName = Str::substr(preg_replace('/[^\p{L}\p{N}_\-\.\s]/u', '', $originalName), 0, 150) ?: 'attachment';
+
                 $order->attachments()->create([
-                    'file_name' => $file->getClientOriginalName(),
+                    'file_name' => $cleanName,
                     'file_path' => $path,
                     'file_size' => $file->getSize(),
                     'mime_type' => $file->getMimeType(),
@@ -64,7 +69,8 @@ class OrderController extends Controller
     {
         Gate::authorize('view', $order);
 
-        $order->load('attachments');
+        $order->load(['attachments' => fn ($q) => $q->select(['id', 'order_id', 'file_name', 'file_size', 'mime_type', 'created_at'])]);
+        $order->makeHidden('admin_notes');
 
         return Inertia::render('Dashboard/Orders/Show', [
             'order' => $order,

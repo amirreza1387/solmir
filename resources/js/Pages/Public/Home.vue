@@ -1,21 +1,21 @@
 <script setup>
 import { ref, computed, onMounted, onUnmounted } from 'vue';
-import { Head, Link } from '@inertiajs/vue3';
+import { Link } from '@inertiajs/vue3';
 import PublicLayout from '@/Layouts/PublicLayout.vue';
+import SeoHead from '@/Components/SeoHead.vue';
 import ServiceCard from '@/Components/ServiceCard.vue';
 import PortfolioCard from '@/Components/PortfolioCard.vue';
-import { 
-  Sparkles, 
-  ArrowLeft, 
+import {
+  Sparkles,
+  ArrowLeft,
   ArrowRight,
-  CheckCircle2, 
-  Star, 
-  HelpCircle, 
-  ChevronDown, 
+  CheckCircle2,
+  Star,
+  HelpCircle,
+  ChevronDown,
   ChevronLeft,
   ChevronRight,
-  Calculator, 
-  Clock,
+  Calculator,
   Layout,
   Code2,
   ShieldCheck,
@@ -68,7 +68,6 @@ const journeySteps = [
     title: 'شناخت بیزینس و نقشه راه معماری',
     shortTitle: 'تحلیل و معماری',
     badge: 'شروع دقیق',
-    duration: '۲ تا ۵ روز کاری',
     description: 'در نخستین گام، به جای کدنویسی شتاب‌زده، اهداف تجاری، رفتار کاربران و زیرساخت مورد نیاز کسب‌وکار شما را کالبدشکافی می‌کنیم تا نقشه راهی شفاف، مدون و بدون غافلگیری ترسیم شود.',
     deliverables: [
       'سند مدون مشخصات فنی و کارکردی پروژه (SRS)',
@@ -85,7 +84,6 @@ const journeySteps = [
     title: 'دیزاین سیستم و پروتوتایپ تعاملی در فیگما',
     shortTitle: 'طراحی UI/UX',
     badge: 'پروتوتایپ تعاملی',
-    duration: '۵ تا ۱۲ روز کاری',
     description: 'خلق هویت بصری ماندگار با استانداردهای روز جهانی. ما دیزاین سیستم کامپوننت‌محور را در Figma پیاده‌سازی می‌کنیم تا پیش از نوشتن هر خط کد، پروتوتایپ کلیک‌خور و زنده سایت‌تان را لمس کنید.',
     deliverables: [
       'دیزاین سیستم ماژولار و توکن‌های اختصاصی رنگ، تایپوگرافی و آیکون‌ها',
@@ -102,7 +100,6 @@ const journeySteps = [
     title: 'توسعه چابک، تمیز و ماژولار (فرانت و بک‌اند)',
     shortTitle: 'کدنویسی و توسعه',
     badge: 'استاندارد مهندسی',
-    duration: '۱۰ تا ۲۵ روز کاری',
     description: 'تبدیل پروتوتایپ به محصولی زنده، برق‌آسا و نفوذناپذیر. توسعه فرانت‌اند با Vue 3 مدرن و بک‌اند با Laravel 12 با تفکیک استاندارد لایه‌ها، رعایت کامل اصول Clean Code و ثبت لحظه‌ای تغییرات در Git.',
     deliverables: [
       'کدنویسی ماژولار و کامپوننت‌محور با لود بهینه در تمام دیوایس‌ها',
@@ -119,7 +116,6 @@ const journeySteps = [
     title: 'کنترل کیفیت عمیق و ممیزی سرعت گوگل',
     shortTitle: 'تست و ممیزی سرعت',
     badge: 'Core Web Vitals A+',
-    duration: '۳ تا ۷ روز کاری',
     description: 'پیش از عمومی‌سازی، سیستم زیر بار تست‌های چندگانه قرار می‌گیرد: ممیزی سرعت در Google PageSpeed با رتبه بالای ۹۰، اعتبارسنجی در ۷ اندازه مختلف نمایشگر و تست‌های امنیتی لایه‌ها.',
     deliverables: [
       'گزارش ممیزی گوگل با نمره سبز در سرعت، دسترس‌پذیری و سئو تکنیکال',
@@ -136,7 +132,6 @@ const journeySteps = [
     title: 'استقرار ابری، تحویل پنل و گارانتی اختصاصی',
     shortTitle: 'استقرار و پشتیبانی',
     badge: 'تضمین پایداری',
-    duration: 'همراهی مستمر',
     description: 'استقرار روی سرورهای ابری با آپ‌تایم ۹۹.۹۸٪ و تحویل پنل کاربری سلمیر به شما. از این لحظه، تمام تیکت‌های فنی، گزارش‌های پشتیبانی و ارتقاهای سیستم مستقیماً در پنل پیگیری می‌شوند.',
     deliverables: [
       'کانفیگ سرور، بهینه‌سازی دیتابیس و نصب گواهی امنیتی SSL',
@@ -235,18 +230,18 @@ const designLevel = ref('premium'); // standard, premium
 const addOns = ref(['seo', 'support']); // payment, ticket, multilanguage, seo, support
 
 const projectTypePrices = {
-  corporate: { name: 'وب‌سایت شرکتی و معرفی خدمات', basePrice: 18, days: 12 },
-  shop: { name: 'فروشگاه اینترنتی جامع', basePrice: 32, days: 22 },
-  custom: { name: 'پلتفرم و سامانه تحت وب اختصاصی', basePrice: 48, days: 35 },
-  redesign: { name: 'بازطراحی و ارتقای سرعت سایت', basePrice: 15, days: 10 },
+  corporate: { name: 'وب‌سایت شرکتی و معرفی خدمات', basePrice: 18 },
+  shop: { name: 'فروشگاه اینترنتی جامع', basePrice: 32 },
+  custom: { name: 'پلتفرم و سامانه تحت وب اختصاصی', basePrice: 48 },
+  redesign: { name: 'بازطراحی و ارتقای سرعت سایت', basePrice: 15 },
 };
 
 const addOnPrices = {
-  payment: { name: 'اتصال به درگاه بانکی و صدور فاکتور', price: 4, days: 2 },
-  ticket: { name: 'سیستم تیکتینگ و گفتگوی اختصاصی', price: 6, days: 4 },
-  multilanguage: { name: 'پشتیبانی از چندزبانگی (انگلیسی/عربی)', price: 7, days: 5 },
-  seo: { name: 'سئو تکنیکال و بهینه‌سازی سرعت', price: 5, days: 3 },
-  support: { name: 'پشتیبانی فنی ۶ ماهه اختصاصی VIP', price: 6, days: 0 },
+  payment: { name: 'اتصال به درگاه بانکی و صدور فاکتور', price: 4 },
+  ticket: { name: 'سیستم تیکتینگ و گفتگوی اختصاصی', price: 6 },
+  multilanguage: { name: 'پشتیبانی از چندزبانگی (انگلیسی/عربی)', price: 7 },
+  seo: { name: 'سئو تکنیکال و بهینه‌سازی سرعت', price: 5 },
+  support: { name: 'پشتیبانی فنی ۶ ماهه اختصاصی VIP', price: 6 },
 };
 
 const toggleAddOn = (key) => {
@@ -270,19 +265,6 @@ const estimatedPrice = computed(() => {
   return total;
 });
 
-const estimatedDays = computed(() => {
-  let days = projectTypePrices[projectType.value].days;
-  if (designLevel.value === 'premium') {
-    days += 4;
-  }
-  addOns.value.forEach(key => {
-    if (addOnPrices[key]) {
-      days += addOnPrices[key].days;
-    }
-  });
-  return days;
-});
-
 const orderLink = computed(() => {
   const serviceTypes = {
     corporate: 'طراحی وب‌سایت شرکتی',
@@ -296,7 +278,7 @@ const orderLink = computed(() => {
   const params = new URLSearchParams({
     service_type: serviceTypes[projectType.value],
     budget_range: budget,
-    estimate: `${estimatedPrice.value} میلیون تومان / ${estimatedDays.value} روز کاری`,
+    estimate: `${estimatedPrice.value} میلیون تومان`,
     design_level: designLevel.value === 'premium' ? 'اختصاصی' : 'استاندارد',
     add_ons: addOns.value.map(key => addOnPrices[key].name).join('، '),
   });
@@ -306,8 +288,8 @@ const orderLink = computed(() => {
 // FAQ Accordion State
 const faqs = ref([
   {
-    q: 'مدت زمان طراحی و تحویل وب‌سایت معمولاً چقدر است؟',
-    a: 'بسته به گستردگی پروژه، وب‌سایت‌های شرکتی بین ۱۰ الی ۲۰ روز کاری و سامانه‌ها یا فروشگاه‌های اختصاصی بین ۲۰ الی ۴۵ روز کاری طراحی، کدنویسی، تست و تحویل داده می‌شوند.',
+    q: 'زمان‌بندی و فازهای اجرای پروژه چگونه تعیین می‌شود؟',
+    a: 'پس از جلسه مشاوره و تدوین سند مشخصات فنی (SRS)، با توجه به اسکوپ دقیق نیازمندی‌ها و امکانات مدنظر شما، یک برنامه‌ریزی زمان‌بندی شفاف، مایلستون‌بندی‌شده و اختصاصی ارائه می‌گردد.',
     isOpen: true
   },
   {
@@ -336,11 +318,39 @@ const toggleFaq = (index) => {
   faqs.value[index].isOpen = !faqs.value[index].isOpen;
 };
 
+const homeSchema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'WebSite',
+      '@id': 'https://solmir.ir/#website',
+      'url': 'https://solmir.ir',
+      'name': 'Solmir',
+      'description': 'آژانس طراحی وب و توسعه پلتفرم‌های دیجیتال',
+      'inLanguage': 'fa-IR',
+    },
+    {
+      '@type': 'Organization',
+      '@id': 'https://solmir.ir/#organization',
+      'name': 'Solmir',
+      'url': 'https://solmir.ir',
+      'logo': 'https://solmir.ir/favicon-32x32.png',
+      'email': 'solmirofc@gmail.com',
+      'telephone': '+989179278747',
+      'description': 'آژانس مهندسی وب و طراحی دیجیتال سلمیر؛ ارائه راهکارهای نوین توسعه وب، طراحی UI/UX و سیستم‌های نرم‌افزاری اختصاصی.',
+    },
+  ],
+};
+
 </script>
 
 <template>
-  <Head title="سلمیر | آژانس طراحی وب و توسعه پلتفرم‌های دیجیتال" />
-  
+  <SeoHead
+    title="سلمیر | آژانس طراحی وب و توسعه پلتفرم‌های دیجیتال"
+    description="آژانس مهندسی وب و طراحی دیجیتال سلمیر؛ طراحی اختصاصی وب‌سایت‌های شرکتی و فروشگاهی، رابط کاربری لوکس UI/UX و سیستم‌های نرم‌افزاری مقیاس‌پذیر با Laravel و Vue 3."
+    :schema="homeSchema"
+  />
+
   <PublicLayout>
     <!-- 1. HERO SECTION -->
     <section class="relative overflow-hidden bg-white py-16 lg:py-24">
@@ -381,7 +391,7 @@ const toggleFaq = (index) => {
 
           <div class="mt-5 flex items-center gap-4">
             <a href="#estimator" class="inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-blue-700 hover:text-blue-800">
-              برآورد اولیهٔ هزینه و زمان <ArrowLeft class="h-4 w-4" aria-hidden="true" />
+              برآورد هوشمند بودجه پروژه <ArrowLeft class="h-4 w-4" aria-hidden="true" />
             </a>
           </div>
 
@@ -448,7 +458,7 @@ const toggleFaq = (index) => {
                     <span class="font-mono text-slate-400">PROJ_VIEW // {{ heroPortfolio.slug }}</span>
                     <span class="rounded-full bg-blue-100 px-2 py-0.5 font-bold text-blue-700">نمونه‌کار شاخص</span>
                   </div>
-                  <img :src="heroPortfolio.image.startsWith('http') ? heroPortfolio.image : '/storage/' + heroPortfolio.image" :alt="'نمای پروژه ' + heroPortfolio.title" class="aspect-[16/9] w-full object-cover transition-transform duration-300 group-hover:scale-102" />
+                  <img :src="heroPortfolio.image.startsWith('http') ? heroPortfolio.image : '/storage/' + heroPortfolio.image" :alt="'نمای پروژه ' + heroPortfolio.title" fetchpriority="high" class="aspect-[16/9] w-full object-cover transition-transform duration-300 group-hover:scale-102" />
                   <div class="flex items-center justify-between border-t border-slate-100 p-3">
                     <div>
                       <p class="text-xs font-bold text-slate-900">{{ heroPortfolio.title }}</p>
@@ -563,17 +573,17 @@ const toggleFaq = (index) => {
 
               <!-- Prev / Next Step Buttons -->
               <div class="inline-flex rounded-xl border border-slate-200 bg-white p-1 shadow-2xs">
-                <button 
-                  type="button" 
-                  @click="prevJourneyStep" 
+                <button
+                  type="button"
+                  @click="prevJourneyStep"
                   aria-label="گام قبلی"
                   class="rounded-lg p-2 text-slate-600 transition-all hover:bg-slate-100 cursor-pointer"
                 >
                   <ChevronRight class="h-4 w-4" aria-hidden="true" />
                 </button>
-                <button 
-                  type="button" 
-                  @click="nextJourneyStep(true)" 
+                <button
+                  type="button"
+                  @click="nextJourneyStep(true)"
                   aria-label="گام بعدی"
                   class="rounded-lg p-2 text-slate-600 transition-all hover:bg-slate-100 cursor-pointer"
                 >
@@ -587,7 +597,7 @@ const toggleFaq = (index) => {
           <div class="relative mb-10">
             <!-- Background Connecting Conduit Line -->
             <div class="absolute top-1/2 right-8 left-8 -z-0 h-1.5 -translate-y-1/2 rounded-full bg-slate-200/80">
-              <div 
+              <div
                 class="h-full rounded-full bg-gradient-to-l from-blue-600 via-sky-500 to-emerald-500 transition-all duration-700 ease-out"
                 :style="{ width: `${(activeJourneyStep / (journeySteps.length - 1)) * 100}%` }"
               ></div>
@@ -605,17 +615,17 @@ const toggleFaq = (index) => {
                 class="group relative flex flex-col items-center justify-between gap-3 overflow-hidden rounded-2xl border p-4 text-center transition-all duration-200 cursor-pointer bg-white"
                 :class="activeJourneyStep === idx
                   ? 'border-blue-600 shadow-md ring-2 ring-blue-500/20 translate-y-[-2px]'
-                  : (idx < activeJourneyStep 
-                    ? 'border-emerald-200/90 bg-emerald-50/20 text-slate-700 hover:border-emerald-300' 
+                  : (idx < activeJourneyStep
+                    ? 'border-emerald-200/90 bg-emerald-50/20 text-slate-700 hover:border-emerald-300'
                     : 'border-slate-200/90 text-slate-500 hover:border-slate-300 hover:bg-slate-50')"
               >
                 <!-- Card Header: Step Icon Circle -->
-                <div 
+                <div
                   class="flex h-9 w-9 items-center justify-center rounded-xl text-xs font-bold transition-all shrink-0"
                   :class="activeJourneyStep === idx
                     ? 'bg-blue-600 text-white shadow-sm ring-4 ring-blue-100 scale-105'
-                    : (idx < activeJourneyStep 
-                      ? 'bg-emerald-600 text-white ring-2 ring-emerald-200' 
+                    : (idx < activeJourneyStep
+                      ? 'bg-emerald-600 text-white ring-2 ring-emerald-200'
                       : 'bg-slate-100 text-slate-500 group-hover:bg-slate-200')"
                 >
                   <Check v-if="idx < activeJourneyStep" class="h-4 w-4" aria-hidden="true" />
@@ -636,25 +646,25 @@ const toggleFaq = (index) => {
                 <div class="w-full pt-1">
                   <!-- Progress Track Pill with explicit distinct keys to prevent node reuse -->
                   <div class="h-1.5 w-full overflow-hidden rounded-full bg-slate-100">
-                    <div 
-                      v-if="idx < activeJourneyStep" 
+                    <div
+                      v-if="idx < activeJourneyStep"
                       :key="'done-' + idx"
                       class="h-full w-full rounded-full bg-emerald-500 transition-all duration-300"
                     ></div>
-                    <div 
-                      v-else-if="activeJourneyStep === idx" 
-                      :key="'active-' + idx + '-' + timerKey" 
+                    <div
+                      v-else-if="activeJourneyStep === idx"
+                      :key="'active-' + idx + '-' + timerKey"
                       class="h-full rounded-full bg-gradient-to-r from-blue-600 via-sky-500 to-blue-600 journey-timer-bar shadow-xs"
                     ></div>
-                    <div 
-                      v-else 
+                    <div
+                      v-else
                       :key="'idle-' + idx"
                       class="h-full w-0 bg-transparent"
                     ></div>
                   </div>
 
-                  <!-- Micro-Status and Time Estimate (Fixed: standard font-sans instead of font-mono) -->
-                  <div class="mt-2 flex items-center justify-between text-[11px] font-medium leading-none">
+                  <!-- Micro-Status Badge -->
+                  <div class="mt-2 flex items-center justify-center text-[11px] font-medium leading-none">
                     <span v-if="idx < activeJourneyStep" class="font-bold text-emerald-600 flex items-center gap-1">
                       <span>تکمیل شد</span>
                       <span class="text-xs">✓</span>
@@ -667,7 +677,6 @@ const toggleFaq = (index) => {
                       <span>در حال اجرا</span>
                     </span>
                     <span v-else class="text-slate-400">در انتظار</span>
-                    <span class="text-slate-400 text-[10px]">{{ step.duration }}</span>
                   </div>
                 </div>
 
@@ -680,7 +689,7 @@ const toggleFaq = (index) => {
 
           <!-- Main Desktop Showcase Grid (Details + Live Simulator Canvas) -->
           <div class="grid items-stretch gap-8 lg:grid-cols-12">
-            
+
             <!-- Right Column: Step Description, Deliverables & Actions -->
             <div class="flex flex-col justify-between rounded-3xl border border-slate-200 bg-white p-8 shadow-sm lg:col-span-5">
               <Transition name="journey-content" mode="out-in">
@@ -725,21 +734,21 @@ const toggleFaq = (index) => {
               <!-- Bottom Action Row -->
               <div class="mt-8 flex items-center justify-between pt-6 border-t border-slate-100">
                 <div class="flex items-center gap-2 text-xs font-medium text-slate-500">
-                  <Clock class="h-4 w-4 text-blue-600" aria-hidden="true" />
-                  <span>مدت زمان: <strong>{{ journeySteps[activeJourneyStep].duration }}</strong></span>
+                  <ShieldCheck class="h-4 w-4 text-emerald-600" aria-hidden="true" />
+                  <span class="text-slate-600">استاندارد کیفی و مهندسی <strong>سلمیر استودیو</strong></span>
                 </div>
 
                 <div class="flex items-center gap-2">
-                  <button 
-                    type="button" 
+                  <button
+                    type="button"
                     @click="nextJourneyStep(true)"
                     class="ui-button ui-button-primary px-4 py-2 text-xs font-bold cursor-pointer"
                   >
                     <span>گام بعدی</span>
                     <ArrowLeft class="h-3.5 w-3.5 transition-transform group-hover:-translate-x-1" aria-hidden="true" />
                   </button>
-                  <Link 
-                    :href="route('orders.create')" 
+                  <Link
+                    :href="route('orders.create')"
                     class="ui-button ui-button-secondary px-3.5 py-2 text-xs font-bold"
                   >
                     شروع پروژه
@@ -1016,23 +1025,23 @@ const toggleFaq = (index) => {
 
           <!-- 5-Segment Story-Style Progress Bars -->
           <div class="grid grid-cols-5 gap-1.5 mb-3" aria-hidden="true">
-            <div 
-              v-for="(s, sIdx) in journeySteps" 
-              :key="s.id" 
+            <div
+              v-for="(s, sIdx) in journeySteps"
+              :key="s.id"
               class="h-1.5 rounded-full overflow-hidden bg-slate-200"
             >
-              <div 
-                v-if="sIdx < activeJourneyStep" 
+              <div
+                v-if="sIdx < activeJourneyStep"
                 :key="'m-done-' + sIdx"
                 class="h-full w-full bg-emerald-500 transition-all duration-300"
               ></div>
-              <div 
-                v-else-if="sIdx === activeJourneyStep" 
-                :key="'m-active-' + sIdx + '-' + timerKey" 
+              <div
+                v-else-if="sIdx === activeJourneyStep"
+                :key="'m-active-' + sIdx + '-' + timerKey"
                 class="h-full bg-blue-600 journey-timer-bar"
               ></div>
-              <div 
-                v-else 
+              <div
+                v-else
                 :key="'m-idle-' + sIdx"
                 class="h-full w-0 bg-transparent"
               ></div>
@@ -1041,18 +1050,18 @@ const toggleFaq = (index) => {
 
           <!-- Mobile Compact Step Tabs (Horizontal Tap Selector) -->
           <div class="flex items-center gap-1.5 overflow-x-auto pb-2 mb-4 scrollbar-none" role="tablist">
-            <button 
-              v-for="(st, sIdx) in journeySteps" 
-              :key="st.id" 
+            <button
+              v-for="(st, sIdx) in journeySteps"
+              :key="st.id"
               type="button"
               role="tab"
               :aria-selected="activeJourneyStep === sIdx"
               @click="setJourneyStep(sIdx)"
               class="shrink-0 flex items-center gap-1.5 rounded-xl border px-3 py-1.5 text-xs font-bold transition-all cursor-pointer shadow-2xs"
-              :class="activeJourneyStep === sIdx 
-                ? 'border-blue-600 bg-blue-600 text-white shadow-xs' 
-                : (sIdx < activeJourneyStep 
-                  ? 'border-emerald-200 bg-emerald-50 text-slate-700' 
+              :class="activeJourneyStep === sIdx
+                ? 'border-blue-600 bg-blue-600 text-white shadow-xs'
+                : (sIdx < activeJourneyStep
+                  ? 'border-emerald-200 bg-emerald-50 text-slate-700'
                   : 'border-slate-200 bg-white text-slate-600')"
             >
               <Check v-if="sIdx < activeJourneyStep" class="h-3 w-3 text-emerald-600" aria-hidden="true" />
@@ -1063,12 +1072,12 @@ const toggleFaq = (index) => {
 
           <!-- Mobile Unified Card with Touch Support -->
           <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm space-y-4">
-            <!-- Phase Badge & Duration Pill -->
+            <!-- Phase Badge & Quality Indicator -->
             <div class="flex items-center justify-between text-xs">
               <span class="font-mono font-bold text-blue-600">{{ journeySteps[activeJourneyStep].phaseCode }}</span>
-              <span class="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2.5 py-0.5 text-[11px] font-medium text-slate-600">
-                <Clock class="h-3 w-3 text-blue-600" />
-                <span>{{ journeySteps[activeJourneyStep].duration }}</span>
+              <span class="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2.5 py-0.5 text-[11px] font-medium text-emerald-700 border border-emerald-100">
+                <ShieldCheck class="h-3 w-3 text-emerald-600" />
+                <span>استاندارد مهندسی</span>
               </span>
             </div>
 
@@ -1178,17 +1187,17 @@ const toggleFaq = (index) => {
             <!-- Mobile Navigation Bar (Prev / Next & CTA) -->
             <div class="pt-3 border-t border-slate-100 flex items-center justify-between gap-2">
               <div class="flex items-center gap-1">
-                <button 
-                  type="button" 
-                  @click="prevJourneyStep" 
+                <button
+                  type="button"
+                  @click="prevJourneyStep"
                   aria-label="گام قبلی"
                   class="rounded-xl border border-slate-200 bg-slate-50 p-2 text-slate-600 hover:bg-slate-100 cursor-pointer"
                 >
                   <ChevronRight class="h-4 w-4" aria-hidden="true" />
                 </button>
-                <button 
-                  type="button" 
-                  @click="nextJourneyStep(true)" 
+                <button
+                  type="button"
+                  @click="nextJourneyStep(true)"
                   aria-label="گام بعدی"
                   class="rounded-xl border border-slate-200 bg-slate-50 p-2 text-slate-600 hover:bg-slate-100 cursor-pointer"
                 >
@@ -1199,8 +1208,8 @@ const toggleFaq = (index) => {
                 </span>
               </div>
 
-              <Link 
-                :href="route('orders.create')" 
+              <Link
+                :href="route('orders.create')"
                 class="ui-button ui-button-primary px-4 py-2 text-xs font-bold"
               >
                 ثبت درخواست پروژه
@@ -1215,22 +1224,22 @@ const toggleFaq = (index) => {
     <!-- 3. INTERACTIVE PROJECT COST ESTIMATOR -->
     <section id="estimator" class="py-20 bg-slate-50 relative">
       <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-        
+
         <div class="text-center mb-14">
           <div class="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-blue-100/80 text-blue-700 font-bold text-xs mb-3">
             <Calculator class="w-4 h-4" />
             <span>ابزار برآورد هوشمند</span>
           </div>
           <h2 class="text-3xl sm:text-4xl font-black text-slate-900 mb-4">
-            محاسبه آنلاین هزینه و زمان تحویل پروژه
+            محاسبه آنلاین و برآورد هوشمند هزینه پروژه
           </h2>
           <p class="text-slate-600 max-w-xl mx-auto text-sm sm:text-base">
-            مشخصات مدنظر خود را مشخص کنید تا در لحظه برآورد هزینه و مدت‌زمان تحویل پروژه را مشاهده نمایید.
+            مشخصات مدنظر خود را مشخص کنید تا در لحظه برآورد شفاف بودجه و خدمات پروژه را مشاهده نمایید.
           </p>
         </div>
 
         <div class="bg-white rounded-3xl p-6 sm:p-10 shadow-xl border border-slate-200/80 grid grid-cols-1 lg:grid-cols-3 gap-10">
-          
+
           <!-- Controls (2 cols) -->
           <div class="lg:col-span-2 space-y-8">
             <!-- Step 1: Type -->
@@ -1240,15 +1249,15 @@ const toggleFaq = (index) => {
                 <span>نوع پروژه شما چیست؟</span>
               </div>
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <button 
-                  v-for="(val, key) in projectTypePrices" 
+                <button
+                  v-for="(val, key) in projectTypePrices"
                   :key="key"
                   type="button"
                   @click="projectType = key"
                   :aria-pressed="projectType === key"
                   class="p-4 rounded-2xl border text-right transition-all flex flex-col justify-between"
-                  :class="projectType === key 
-                    ? 'border-blue-600 bg-blue-50/70 text-blue-900 ring-2 ring-blue-500/20 shadow-xs' 
+                  :class="projectType === key
+                    ? 'border-blue-600 bg-blue-50/70 text-blue-900 ring-2 ring-blue-500/20 shadow-xs'
                     : 'border-slate-200 hover:border-slate-300 text-slate-700 hover:bg-slate-50'"
                 >
                   <span class="font-bold text-sm mb-1">{{ val.name }}</span>
@@ -1264,25 +1273,25 @@ const toggleFaq = (index) => {
                 <span>سطح دیزاین و تجربه کاربری (UI/UX):</span>
               </div>
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <button 
+                <button
                   type="button"
                   @click="designLevel = 'standard'"
                   :aria-pressed="designLevel === 'standard'"
                   class="p-4 rounded-2xl border text-right transition-all"
-                  :class="designLevel === 'standard' 
-                    ? 'border-blue-600 bg-blue-50/70 text-blue-900 ring-2 ring-blue-500/20' 
+                  :class="designLevel === 'standard'
+                    ? 'border-blue-600 bg-blue-50/70 text-blue-900 ring-2 ring-blue-500/20'
                     : 'border-slate-200 hover:border-slate-300 text-slate-700 hover:bg-slate-50'"
                 >
                   <div class="font-bold text-sm">استاندارد و مینیمال</div>
                   <div class="text-xs text-slate-500 mt-1">طراحی تمیز، مدرن و فوکوس بر سرعت</div>
                 </button>
-                <button 
+                <button
                   type="button"
                   @click="designLevel = 'premium'"
                   :aria-pressed="designLevel === 'premium'"
                   class="p-4 rounded-2xl border text-right transition-all"
-                  :class="designLevel === 'premium' 
-                    ? 'border-blue-600 bg-blue-50/70 text-blue-900 ring-2 ring-blue-500/20' 
+                  :class="designLevel === 'premium'
+                    ? 'border-blue-600 bg-blue-50/70 text-blue-900 ring-2 ring-blue-500/20'
                     : 'border-slate-200 hover:border-slate-300 text-slate-700 hover:bg-slate-50'"
                 >
                   <div class="font-bold text-sm flex items-center gap-1.5 text-blue-700">
@@ -1301,19 +1310,19 @@ const toggleFaq = (index) => {
                 <span>امکانات جانبی مورد نیاز:</span>
               </div>
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                <button 
-                  v-for="(val, key) in addOnPrices" 
+                <button
+                  v-for="(val, key) in addOnPrices"
                   :key="key"
                   type="button"
                   @click="toggleAddOn(key)"
                   :aria-pressed="addOns.includes(key)"
                   class="p-3.5 rounded-xl border text-right transition-all flex items-center justify-between"
-                  :class="addOns.includes(key) 
-                    ? 'border-blue-500 bg-blue-50/60 text-blue-900' 
+                  :class="addOns.includes(key)
+                    ? 'border-blue-500 bg-blue-50/60 text-blue-900'
                     : 'border-slate-200 text-slate-700 hover:bg-slate-50'"
                 >
                   <div class="flex items-center gap-2">
-                    <div 
+                    <div
                       class="w-4 h-4 rounded-md border flex items-center justify-center text-white"
                       :class="addOns.includes(key) ? 'bg-blue-600 border-blue-600' : 'border-slate-300'"
                     >
@@ -1349,10 +1358,10 @@ const toggleFaq = (index) => {
                 </div>
                 <div class="flex justify-between items-center pt-2">
                   <span class="text-blue-100 flex items-center gap-1.5">
-                    <Clock class="w-4 h-4" />
-                    زمان تحویل:
+                    <ShieldCheck class="w-4 h-4" />
+                    تضمین کیفیت:
                   </span>
-                  <span class="font-bold text-amber-300">{{ estimatedDays }} روز کاری</span>
+                  <span class="font-bold text-emerald-300">گارانتی طلایی رفع باگ</span>
                 </div>
               </div>
 
@@ -1366,7 +1375,7 @@ const toggleFaq = (index) => {
             </div>
 
             <div class="mt-8 space-y-2">
-              <Link 
+              <Link
                 :href="orderLink"
                 class="ui-button w-full bg-white text-blue-800 hover:bg-blue-50"
               >
@@ -1387,7 +1396,7 @@ const toggleFaq = (index) => {
     <!-- 4. SERVICES SECTION -->
     <section class="ui-section relative overflow-hidden bg-white">
       <div class="pointer-events-none absolute inset-0 bg-tech-lines opacity-25"></div>
-      
+
       <div class="ui-container relative z-10">
         <div class="mb-12 flex flex-col md:flex-row md:items-end md:justify-between gap-4">
           <div class="max-w-2xl">
@@ -1536,12 +1545,12 @@ const toggleFaq = (index) => {
 
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-0 items-center">
               <div class="lg:col-span-7 aspect-[16/10] overflow-hidden bg-slate-100 relative">
-                <img 
-                  v-if="featuredPortfolios[0].image" 
-                  :src="featuredPortfolios[0].image.startsWith('http') ? featuredPortfolios[0].image : '/storage/' + featuredPortfolios[0].image" 
-                  :alt="`نمای پروژه ${featuredPortfolios[0].title}`" 
-                  class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-103" 
-                  loading="lazy" 
+                <img
+                  v-if="featuredPortfolios[0].image"
+                  :src="featuredPortfolios[0].image.startsWith('http') ? featuredPortfolios[0].image : '/storage/' + featuredPortfolios[0].image"
+                  :alt="`نمای پروژه ${featuredPortfolios[0].title}`"
+                  class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-103"
+                  loading="lazy"
                 />
                 <div v-else class="flex h-full flex-col items-center justify-center gap-3 bg-slate-100 p-8 text-center text-slate-500">
                   <Laptop class="h-10 w-10 text-slate-400" />
@@ -1577,11 +1586,11 @@ const toggleFaq = (index) => {
 
           <!-- Secondary Projects in Balanced Grid -->
           <div v-if="featuredPortfolios.length > 1" class="grid gap-6 md:grid-cols-2">
-            <PortfolioCard 
-              v-for="portfolio in featuredPortfolios.slice(1)" 
-              :key="portfolio.id" 
-              :portfolio="portfolio" 
-              :featured="false" 
+            <PortfolioCard
+              v-for="portfolio in featuredPortfolios.slice(1)"
+              :key="portfolio.id"
+              :portfolio="portfolio"
+              :featured="false"
             />
           </div>
         </div>
@@ -1627,26 +1636,26 @@ const toggleFaq = (index) => {
         </div>
 
         <div class="space-y-4">
-          <div 
-            v-for="(faq, index) in faqs" 
+          <div
+            v-for="(faq, index) in faqs"
             :key="index"
             class="rounded-2xl border border-slate-200/90 bg-white overflow-hidden shadow-2xs transition-all hover:border-blue-300"
           >
-            <button 
-              @click="toggleFaq(index)" 
+            <button
+              @click="toggleFaq(index)"
               type="button"
               :aria-expanded="faq.isOpen"
               :aria-controls="'faq-answer-' + index"
               class="flex w-full items-center justify-between p-5 text-right font-bold text-slate-900 transition hover:text-blue-600 cursor-pointer"
             >
               <span class="text-base">{{ faq.q }}</span>
-              <ChevronDown 
-                class="h-5 w-5 shrink-0 text-slate-400 transition-transform duration-200" 
-                :class="{ 'rotate-180 text-blue-600': faq.isOpen }" 
+              <ChevronDown
+                class="h-5 w-5 shrink-0 text-slate-400 transition-transform duration-200"
+                :class="{ 'rotate-180 text-blue-600': faq.isOpen }"
               />
             </button>
-            <div 
-              v-show="faq.isOpen" 
+            <div
+              v-show="faq.isOpen"
               :id="'faq-answer-' + index"
               class="border-t border-slate-100 bg-slate-50/60 px-5 pt-2 pb-5 text-sm leading-relaxed text-slate-600"
             >
@@ -1677,7 +1686,7 @@ const toggleFaq = (index) => {
         </h2>
 
         <p class="mx-auto mt-4 max-w-2xl text-sm leading-8 text-slate-400 sm:text-base">
-          نیاز یا ایدهٔ خود را ثبت کنید تا نقشه راه فنی، زمان‌بندی و برآورد اختصاصی پروژه را با هم بررسی کنیم.
+          نیاز یا ایدهٔ خود را ثبت کنید تا نقشه راه فنی و برآورد اختصاصی بودجه پروژه را با هم بررسی کنیم.
         </p>
 
         <div class="mt-8 flex flex-wrap justify-center gap-3">
@@ -1695,7 +1704,7 @@ const toggleFaq = (index) => {
             <CheckCircle2 class="h-4 w-4 text-blue-400" /> مشاوره اولیه و تحلیل فنی
           </span>
           <span class="flex items-center gap-2 font-medium">
-            <CheckCircle2 class="h-4 w-4 text-blue-400" /> برآورد شفاف هزینه و زمان
+            <CheckCircle2 class="h-4 w-4 text-blue-400" /> برآورد شفاف و دقیق بودجه
           </span>
           <span class="flex items-center gap-2 font-medium">
             <CheckCircle2 class="h-4 w-4 text-blue-400" /> قرارداد رسمی و پشتیبانی اختصاصی

@@ -14,7 +14,7 @@ class PortfolioController extends Controller
 {
     public function index(): Response
     {
-        $portfolios = Portfolio::latest()->get();
+        $portfolios = Portfolio::latest()->paginate(15)->withQueryString();
 
         return Inertia::render('Admin/Portfolios/Index', [
             'portfolios' => $portfolios,
@@ -36,7 +36,7 @@ class PortfolioController extends Controller
             'category' => ['required', 'string', 'max:255'],
             'url' => ['nullable', 'url', 'max:255'],
             'is_featured' => ['boolean'],
-            'image' => ['nullable', 'image', 'max:5120'],
+            'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp,avif', 'max:5120'],
         ]);
 
         if ($request->hasFile('image')) {
@@ -65,7 +65,7 @@ class PortfolioController extends Controller
             'category' => ['required', 'string', 'max:255'],
             'url' => ['nullable', 'url', 'max:255'],
             'is_featured' => ['boolean'],
-            'image' => ['nullable', 'image', 'max:5120'],
+            'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp,avif', 'max:5120'],
         ]);
 
         if ($request->hasFile('image')) {

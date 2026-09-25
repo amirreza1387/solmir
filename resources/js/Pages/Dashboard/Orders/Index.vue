@@ -2,23 +2,35 @@
 import { Head, Link } from '@inertiajs/vue3';
 import AppLayout from '@/Layouts/AppLayout.vue';
 import StatusBadge from '@/Components/StatusBadge.vue';
-import { 
-  ShoppingBag, 
-  PlusCircle, 
-  ArrowLeft, 
-  Clock, 
-  CheckCircle2, 
-  AlertCircle, 
-  FileText 
+import {
+  ShoppingBag,
+  PlusCircle,
+  ArrowLeft,
+  Clock,
+  CheckCircle2,
+  AlertCircle,
+  FileText
 } from 'lucide-vue-next';
 
-defineProps({
+import { computed } from 'vue';
+import Pagination from '@/Components/Pagination.vue';
+
+const props = defineProps({
   orders: {
-    type: Array,
+    type: [Array, Object],
     required: true
   }
 });
 
+const orderList = computed(() => {
+  if (Array.isArray(props.orders)) return props.orders;
+  return props.orders?.data || [];
+});
+
+const paginationLinks = computed(() => props.orders?.links || []);
+const from = computed(() => props.orders?.from);
+const to = computed(() => props.orders?.to);
+const total = computed(() => props.orders?.total ?? orderList.value.length);
 </script>
 
 <template>
@@ -26,7 +38,7 @@ defineProps({
 
   <AppLayout>
     <div class="space-y-6 max-w-7xl mx-auto">
-      
+
       <!-- Top Header -->
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
@@ -38,8 +50,8 @@ defineProps({
           <p class="text-xs text-slate-500 mt-1">مشاهده، پیگیری وضعیت، و فایل‌های مربوط به سفارشات ثبت‌شده شما.</p>
         </div>
 
-        <Link 
-          :href="route('orders.create')" 
+        <Link
+          :href="route('orders.create')"
           class="px-5 py-3 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold text-xs sm:text-sm shadow-md shadow-blue-500/20 hover:shadow-lg transition flex items-center gap-2 self-start sm:self-auto"
         >
           <PlusCircle class="w-4 h-4" />
@@ -49,8 +61,8 @@ defineProps({
 
       <!-- Orders Content Card -->
       <div class="bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-xs">
-        
-        <div v-if="orders.length === 0" class="text-center py-20 px-4">
+
+        <div v-if="orderList.length === 0" class="text-center py-20 px-4">
           <div class="w-16 h-16 rounded-2xl bg-blue-50 text-blue-500 flex items-center justify-center mx-auto mb-4">
             <ShoppingBag class="w-8 h-8 opacity-60" />
           </div>
@@ -58,8 +70,8 @@ defineProps({
           <p class="text-xs text-slate-500 mt-1 max-w-sm mx-auto">
             برای شروع همکاری با تیم سلمیر، اولین سفارش طراحی یا توسعه خود را به‌سادگی ثبت کنید.
           </p>
-          <Link 
-            :href="route('orders.create')" 
+          <Link
+            :href="route('orders.create')"
             class="inline-flex items-center gap-2 mt-6 px-6 py-3 rounded-xl bg-blue-600 text-white font-bold text-xs hover:bg-blue-700 transition shadow-sm"
           >
             <PlusCircle class="w-4 h-4" />
@@ -80,8 +92,8 @@ defineProps({
               </tr>
             </thead>
             <tbody class="divide-y divide-slate-100">
-              <tr 
-                v-for="order in orders" 
+              <tr
+                v-for="order in orderList"
                 :key="order.id"
                 class="hover:bg-blue-50/40 transition"
               >
@@ -101,8 +113,8 @@ defineProps({
                   {{ new Date(order.created_at).toLocaleDateString('fa-IR') }}
                 </td>
                 <td class="px-6 py-4 text-center">
-                  <Link 
-                    :href="route('orders.show', order.id)" 
+                  <Link
+                    :href="route('orders.show', order.id)"
                     class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-bold text-blue-600 hover:text-blue-800 bg-blue-50 hover:bg-blue-100 transition"
                   >
                     <span>جزئیات</span>
@@ -112,6 +124,13 @@ defineProps({
               </tr>
             </tbody>
           </table>
+
+          <Pagination
+            :links="paginationLinks"
+            :from="from"
+            :to="to"
+            :total="total"
+          />
         </div>
 
       </div>

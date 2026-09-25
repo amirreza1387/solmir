@@ -10,7 +10,9 @@ class PortfolioController extends Controller
 {
     public function index(): Response
     {
-        $portfolios = Portfolio::all();
+        $portfolios = cache()->remember('public.portfolios.all', 3600, function () {
+            return Portfolio::all()->toArray();
+        });
 
         return Inertia::render('Public/Portfolio', [
             'portfolios' => $portfolios,

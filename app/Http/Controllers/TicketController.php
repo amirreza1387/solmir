@@ -17,7 +17,8 @@ class TicketController extends Controller
         $tickets = Ticket::forUser($request->user()->id)
             ->withCount('replies')
             ->latest()
-            ->get();
+            ->paginate(10)
+            ->withQueryString();
 
         return Inertia::render('Dashboard/Tickets/Index', [
             'tickets' => $tickets,
@@ -69,9 +70,10 @@ class TicketController extends Controller
         }
 
         $validated = $request->validate([
-            'message' => ['required', 'string'],
+            'message' => ['required', 'string', 'max:5000'],
         ], [
             'message.required' => 'متن پاسخ نمی‌تواند خالی باشد.',
+            'message.max' => 'طول متن پاسخ نمی‌تواند بیشتر از ۵۰۰۰ کاراکتر باشد.',
         ]);
 
         $ticket->replies()->create([

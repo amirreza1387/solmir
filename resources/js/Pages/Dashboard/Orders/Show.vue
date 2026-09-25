@@ -2,15 +2,15 @@
 import { Head, Link } from '@inertiajs/vue3';
 import AppLayout from '@/Layouts/AppLayout.vue';
 import StatusBadge from '@/Components/StatusBadge.vue';
-import { 
-  ShoppingBag, 
-  ArrowLeft, 
-  Clock, 
-  Calendar, 
-  Coins, 
-  FileText, 
-  CheckCircle2, 
-  ShieldCheck, 
+import {
+  ShoppingBag,
+  ArrowLeft,
+  Clock,
+  Calendar,
+  Coins,
+  FileText,
+  CheckCircle2,
+  ShieldCheck,
   Paperclip,
   Download
 } from 'lucide-vue-next';
@@ -37,11 +37,11 @@ const getStepNumber = (status) => {
 
   <AppLayout>
     <div class="max-w-5xl mx-auto space-y-6">
-      
+
       <!-- Top Action Bar -->
       <div class="flex items-center justify-between">
-        <Link 
-          :href="route('orders.index')" 
+        <Link
+          :href="route('orders.index')"
           class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold text-slate-600 hover:text-blue-600 bg-white border border-slate-200 transition"
         >
           <ArrowLeft class="w-4 h-4 rotate-180" />
@@ -61,19 +61,19 @@ const getStepNumber = (status) => {
         </div>
 
         <div class="grid grid-cols-4 gap-2 pt-2">
-          <div 
+          <div
             class="h-2 rounded-full transition-all"
             :class="getStepNumber(order.status) >= 1 ? 'bg-blue-600' : 'bg-slate-200'"
           ></div>
-          <div 
+          <div
             class="h-2 rounded-full transition-all"
             :class="getStepNumber(order.status) >= 2 ? 'bg-blue-600' : 'bg-slate-200'"
           ></div>
-          <div 
+          <div
             class="h-2 rounded-full transition-all"
             :class="getStepNumber(order.status) >= 3 ? 'bg-blue-600' : 'bg-slate-200'"
           ></div>
-          <div 
+          <div
             class="h-2 rounded-full transition-all"
             :class="getStepNumber(order.status) >= 4 ? 'bg-emerald-500' : 'bg-slate-200'"
           ></div>
@@ -89,7 +89,7 @@ const getStepNumber = (status) => {
 
       <!-- Main Order Details Grid -->
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        
+
         <!-- Left: Main Information (2 cols) -->
         <div class="lg:col-span-2 space-y-6">
           <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-xs space-y-6">
@@ -105,17 +105,6 @@ const getStepNumber = (status) => {
               </p>
             </div>
 
-            <!-- Admin Notes (if available) -->
-            <div v-if="order.admin_notes" class="border-t border-slate-100 pt-4">
-              <h4 class="text-xs font-bold text-amber-700 mb-2 flex items-center gap-1.5">
-                <ShieldCheck class="w-4 h-4" />
-                <span>یادداشت کارشناس فنی سلمیر:</span>
-              </h4>
-              <p class="text-xs text-slate-700 leading-relaxed bg-amber-50/70 p-4 rounded-2xl border border-amber-200">
-                {{ order.admin_notes }}
-              </p>
-            </div>
-
             <!-- Attachments -->
             <div v-if="order.attachments && order.attachments.length > 0" class="border-t border-slate-100 pt-4">
               <h4 class="text-xs font-bold text-slate-400 mb-3 flex items-center gap-1.5">
@@ -123,14 +112,14 @@ const getStepNumber = (status) => {
                 <span>فایل‌های پیوست سفارش:</span>
               </h4>
               <div class="space-y-2">
-                <div 
-                  v-for="att in order.attachments" 
+                <div
+                  v-for="att in order.attachments"
                   :key="att.id"
                   class="flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-slate-200 text-xs"
                 >
                   <span class="font-mono font-bold text-slate-800">{{ att.file_name }}</span>
-                  <a 
-                    :href="route('orders.attachments.download', [order.id, att.id])" 
+                  <a
+                    :href="route('orders.attachments.download', [order.id, att.id])"
                     class="text-blue-600 hover:text-blue-800 font-bold flex items-center gap-1"
                   >
                     <Download class="w-3.5 h-3.5" />
@@ -175,8 +164,8 @@ const getStepNumber = (status) => {
             </div>
 
             <div class="pt-4 border-t border-slate-100">
-              <Link 
-                :href="route('tickets.create')" 
+              <Link
+                :href="route('tickets.create')"
                 class="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-blue-50 text-blue-700 hover:bg-blue-100 font-bold text-xs transition"
               >
                 <span>گفتگو با تیم فنی درباره این سفارش</span>

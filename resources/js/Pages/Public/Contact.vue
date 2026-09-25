@@ -1,18 +1,18 @@
 <script setup>
-import { Head, useForm } from '@inertiajs/vue3';
+import { Link, useForm } from '@inertiajs/vue3';
 import PublicLayout from '@/Layouts/PublicLayout.vue';
-import { 
-  Mail, 
-  Phone, 
-  MapPin, 
-  Send, 
-  Clock, 
-  CheckCircle2, 
-  Sparkles, 
+import SeoHead from '@/Components/SeoHead.vue';
+import {
+  Mail,
+  Phone,
+  Send,
+  Clock,
+  CheckCircle2,
+  Sparkles,
   MessageSquare,
-  HelpCircle
+  HelpCircle,
+  Loader2
 } from 'lucide-vue-next';
-
 
 const form = useForm({
   name: '',
@@ -28,11 +28,53 @@ const submit = () => {
     onSuccess: () => form.reset(),
   });
 };
+
+const contactSchema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'ContactPage',
+      '@id': 'https://solmir.ir/contact#webpage',
+      'url': 'https://solmir.ir/contact',
+      'name': 'تماس با ما | مشاوره رایگان طراحی وب سلمیر',
+      'description': 'ارتباط مستقیم با کارشناسان فنی و طراحان سلمیر جهت مشاوره و برآورد تخصصی پروژه وب‌سایت.',
+      'breadcrumb': {
+        '@type': 'BreadcrumbList',
+        'itemListElement': [
+          {
+            '@type': 'ListItem',
+            'position': 1,
+            'name': 'صفحه اصلی',
+            'item': 'https://solmir.ir',
+          },
+          {
+            '@type': 'ListItem',
+            'position': 2,
+            'name': 'تماس با ما',
+            'item': 'https://solmir.ir/contact',
+          },
+        ],
+      },
+    },
+    {
+      '@type': 'Organization',
+      '@id': 'https://solmir.ir/#organization',
+      'name': 'Solmir',
+      'url': 'https://solmir.ir',
+      'email': 'solmirofc@gmail.com',
+      'telephone': '+989179278747',
+    },
+  ],
+};
 </script>
 
 <template>
-  <Head title="تماس با ما | مشاوره رایگان طراحی وب سلمیر" />
-  
+  <SeoHead
+    title="تماس با ما | مشاوره رایگان طراحی وب سلمیر"
+    description="جهت دریافت مشاوره رایگان و برآورد زمان‌بندی و هزینه پروژه‌های طراحی وب و توسعه نرم‌افزار با کارشناسان سلمیر در ارتباط باشید."
+    :schema="contactSchema"
+  />
+
   <PublicLayout>
     <!-- Header -->
     <div class="relative py-16 lg:py-20 bg-white border-b border-slate-200">
@@ -53,9 +95,9 @@ const submit = () => {
     <!-- Main Content -->
     <div class="py-20 bg-slate-50">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
+
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
-          
+
           <!-- Contact Info Sidebar (1 col) -->
           <div class="space-y-6">
             <div class="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm space-y-6">
@@ -70,8 +112,8 @@ const submit = () => {
                   </div>
                   <div>
                     <div class="text-xs text-slate-400 font-medium">تماس تلفنی مستقیم</div>
-                    <a href="tel:02188990011" class="text-slate-900 font-mono font-bold text-sm hover:text-blue-600 transition dir-ltr inline-block">
-                      ۰۲۱ - ۸۸۹۹۰۰۱۱
+                    <a href="tel:09179278747" class="text-slate-900 font-mono font-bold text-sm hover:text-blue-600 transition dir-ltr inline-block">
+                      ۰۹۱۷۹۲۷۸۷۴۷
                     </a>
                   </div>
                 </div>
@@ -82,21 +124,9 @@ const submit = () => {
                   </div>
                   <div>
                     <div class="text-xs text-slate-400 font-medium">ایمیل کاری و رسمی</div>
-                    <a href="mailto:info@solmir.com" class="text-slate-900 font-mono font-bold text-sm hover:text-blue-600 transition dir-ltr inline-block">
-                      info@solmir.com
+                    <a href="mailto:solmirofc@gmail.com" class="text-slate-900 font-mono font-bold text-sm hover:text-blue-600 transition dir-ltr inline-block">
+                      solmirofc@gmail.com
                     </a>
-                  </div>
-                </div>
-
-                <div class="flex items-start gap-3.5">
-                  <div class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
-                    <MapPin class="w-5 h-5" />
-                  </div>
-                  <div>
-                    <div class="text-xs text-slate-400 font-medium">آدرس دفتر مرکزی</div>
-                    <p class="text-slate-800 text-xs sm:text-sm leading-relaxed mt-0.5">
-                      تهران، خیابان ولیعصر، برج فناوری و نوآوری، طبقه ۶
-                    </p>
                   </div>
                 </div>
 
@@ -105,7 +135,7 @@ const submit = () => {
                     <Clock class="w-5 h-5" />
                   </div>
                   <div>
-                    <div class="text-xs text-slate-400 font-medium">ساعات پاسخگویی حضوری و تلفنی</div>
+                    <div class="text-xs text-slate-400 font-medium">ساعات کاری و پشتیبانی</div>
                     <p class="text-slate-800 text-xs sm:text-sm leading-relaxed mt-0.5">
                       شنبه تا چهارشنبه: ۹:۰۰ الی ۱۸:۰۰<br />
                       پشتیبانی تیکتینگ برای کاربران: ۲۴/۷
@@ -118,8 +148,8 @@ const submit = () => {
               <div class="pt-4 border-t border-slate-100 bg-slate-50 -mx-8 -mb-8 p-6 rounded-b-3xl">
                 <div class="text-xs font-bold text-slate-700 mb-1">کاربر ثبت‌نام شده هستید؟</div>
                 <p class="text-[11px] text-slate-500 mb-3">برای پاسخگویی سریع‌تر از سیستم تیکتینگ استفاده فرمایید.</p>
-                <Link 
-                  :href="route('tickets.create')" 
+                <Link
+                  :href="route('tickets.create')"
                   class="text-xs font-bold text-blue-600 hover:text-blue-700 flex items-center gap-1"
                 >
                   ارسال تیکت در پنل کاربری
@@ -145,8 +175,9 @@ const submit = () => {
                     <label for="contact-name" class="block text-sm font-bold text-slate-700 mb-2">نام و نام خانوادگی *</label>
                     <input id="contact-name"
                       v-model="form.name"
-                      type="text" 
+                      type="text"
                       required
+                      autocomplete="name"
                       placeholder="مثال: علی احمدی"
                       class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 text-sm outline-none transition"
                     />
@@ -157,10 +188,11 @@ const submit = () => {
                     <label for="contact-phone" class="block text-sm font-bold text-slate-700 mb-2">شماره تماس / موبایل *</label>
                     <input id="contact-phone"
                       v-model="form.phone"
-                      type="tel" 
+                      type="tel"
                       dir="ltr"
+                      autocomplete="tel"
                       placeholder="09123456789"
-                      class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 text-sm outline-none transition text-right"
+                      class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 text-sm outline-none transition text-left font-mono"
                     />
                     <span v-if="form.errors.phone" class="text-xs text-red-500 mt-1 block">{{ form.errors.phone }}</span>
                   </div>
@@ -171,11 +203,12 @@ const submit = () => {
                     <label for="contact-email" class="block text-sm font-bold text-slate-700 mb-2">آدرس ایمیل *</label>
                     <input id="contact-email"
                       v-model="form.email"
-                      type="email" 
+                      type="email"
                       required
                       dir="ltr"
+                      autocomplete="email"
                       placeholder="name@example.com"
-                      class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 text-sm outline-none transition text-right"
+                      class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 text-sm outline-none transition text-left font-mono"
                     />
                     <span v-if="form.errors.email" class="text-xs text-red-500 mt-1 block">{{ form.errors.email }}</span>
                   </div>
@@ -184,7 +217,7 @@ const submit = () => {
                     <label for="contact-subject" class="block text-sm font-bold text-slate-700 mb-2">موضوع پیام یا نوع پروژه *</label>
                     <input id="contact-subject"
                       v-model="form.subject"
-                      type="text" 
+                      type="text"
                       required
                       placeholder="مثال: درخواست طراحی سایت فروشگاهی"
                       class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 text-sm outline-none transition"
@@ -206,12 +239,13 @@ const submit = () => {
                 </div>
 
                 <div>
-                  <button 
-                    type="submit" 
+                  <button
+                    type="submit"
                     :disabled="form.processing"
-                    class="px-8 py-3.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm shadow-md shadow-blue-500/20 hover:shadow-lg hover:shadow-blue-500/30 transition disabled:opacity-50 flex items-center gap-2"
+                    class="px-8 py-3.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm shadow-md shadow-blue-500/20 hover:shadow-lg hover:shadow-blue-500/30 transition disabled:opacity-50 flex items-center justify-center gap-2"
                   >
-                    <Send class="w-4 h-4" />
+                    <Loader2 v-if="form.processing" class="w-4 h-4 animate-spin" />
+                    <Send v-else class="w-4 h-4" />
                     <span>{{ form.processing ? 'در حال ارسال...' : 'ارسال درخواست مشاوره' }}</span>
                   </button>
                 </div>

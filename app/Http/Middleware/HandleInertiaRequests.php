@@ -44,6 +44,16 @@ class HandleInertiaRequests extends Middleware
                 'success' => fn () => $request->session()->get('success'),
                 'error' => fn () => $request->session()->get('error'),
             ],
+            'seo' => [
+                'appName' => config('app.name', 'Solmir'),
+                'appUrl' => rtrim(config('app.url', 'https://solmir.ir'), '/'),
+                'brandName' => 'Solmir',
+                'brandDescription' => 'آژانس طراحی وب و توسعه نرم‌افزار',
+                'defaultDescription' => 'آژانس طراحی وب و مهندسی نرم‌افزار سلمیر؛ ارائه راهکارهای نوین دیجیتال، طراحی UI/UX و سیستم‌های تحت وب با بالاترین کیفیت مهندسی.',
+                'phone' => '09179278747',
+                'email' => 'solmirofc@gmail.com',
+                'ogImage' => config('app.og_image') ? asset(config('app.og_image')) : null,
+            ],
         ];
     }
 }

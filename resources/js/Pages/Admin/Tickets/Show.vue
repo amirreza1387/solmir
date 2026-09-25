@@ -1,7 +1,7 @@
 <template>
   <AdminLayout>
     <Head :title="ticket.title" />
-    
+
     <div class="mb-6">
       <Link href="/admin/tickets" class="text-slate-500 hover:text-slate-700 text-sm mb-2 inline-block">&rarr; بازگشت به لیست</Link>
       <div class="flex justify-between items-center">
@@ -17,7 +17,7 @@
     <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
       <!-- Chat Area -->
       <div class="lg:col-span-3 flex flex-col h-[700px] bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm">
-        
+
         <!-- Messages -->
         <div class="flex-1 p-6 overflow-y-auto space-y-6 bg-slate-50">
           <!-- All Messages & Replies -->
@@ -27,11 +27,11 @@
               <span class="font-bold text-sm text-blue-700" v-else>پشتیبانی (شما)</span>
               <span class="text-xs text-slate-500">{{ new Date(reply.created_at).toLocaleString('fa-IR') }}</span>
             </div>
-            
-            <div 
+
+            <div
               class="p-4 rounded-2xl shadow-sm max-w-[85%] whitespace-pre-wrap"
-              :class="reply.is_admin 
-                ? 'bg-blue-600 text-white rounded-tl-sm' 
+              :class="reply.is_admin
+                ? 'bg-blue-600 text-white rounded-tl-sm'
                 : 'bg-white border border-slate-200 text-slate-800 rounded-tr-sm'"
             >
               {{ reply.message }}
@@ -49,17 +49,19 @@
             <textarea
               v-model="replyForm.message"
               rows="3"
-              class="w-full border-slate-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 resize-none"
-              placeholder="پاسخ خود را بنویسید..."
+              @keydown="handleKeydown"
+              class="w-full border-slate-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 resize-none text-sm p-3"
+              placeholder="پاسخ خود را بنویسید (Enter برای سطر جدید، Ctrl + Enter برای ارسال)..."
             ></textarea>
-            <div class="flex justify-between items-center">
-              <span class="text-sm text-red-500">{{ replyForm.errors.message }}</span>
-              <button 
-                type="submit" 
-                :disabled="replyForm.processing || !replyForm.message" 
-                class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50"
+            <div class="flex justify-between items-center text-xs">
+              <span class="text-slate-400">Ctrl + Enter برای ارسال سریع</span>
+              <span class="text-sm text-red-500" v-if="replyForm.errors.message">{{ replyForm.errors.message }}</span>
+              <button
+                type="submit"
+                :disabled="replyForm.processing || !replyForm.message.trim()"
+                class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 font-bold transition flex items-center gap-1.5 cursor-pointer"
               >
-                ارسال پاسخ
+                <span>{{ replyForm.processing ? 'در حال ارسال...' : 'ارسال پاسخ' }}</span>
               </button>
             </div>
           </form>
@@ -70,7 +72,7 @@
       <div class="space-y-6">
         <div class="bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
           <h2 class="font-bold text-slate-800 mb-4 pb-2 border-b">وضعیت تیکت</h2>
-          
+
           <form @submit.prevent="updateStatus">
             <div class="space-y-4 mb-4">
               <div>
@@ -94,12 +96,19 @@
               </div>
             </div>
 
-            <button type="submit" :disabled="statusForm.processing" class="w-full py-2 bg-slate-800 text-white rounded-lg hover:bg-slate-900 transition text-sm font-medium">
-              بروزرسانی
+            <button
+              type="submit"
+              :disabled="statusForm.processing"
+              class="w-full py-2.5 bg-slate-800 text-white rounded-xl hover:bg-slate-900 transition text-xs font-bold flex items-center justify-center gap-1.5 cursor-pointer disabled:opacity-50"
+            >
+              <span>{{ statusForm.processing ? 'در حال ذخیره...' : 'بروزرسانی وضعیت' }}</span>
             </button>
+            <span v-if="statusForm.recentlySuccessful" class="text-xs font-bold text-emerald-600 mt-2 block text-center">
+              وضعیت با موفقیت بروزرسانی شد
+            </span>
           </form>
         </div>
-        
+
         <div class="bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
           <h2 class="font-bold text-slate-800 mb-3 text-sm">اطلاعات کاربر</h2>
           <div class="text-sm space-y-2 text-slate-600">
@@ -131,7 +140,15 @@ const statusForm = useForm({
   priority: props.ticket.priority,
 });
 
+const handleKeydown = (e) => {
+  if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+    e.preventDefault();
+    submitReply();
+  }
+};
+
 const submitReply = () => {
+  if (replyForm.processing || !replyForm.message.trim()) return;
   replyForm.post(`/admin/tickets/${props.ticket.id}/reply`, {
     preserveScroll: true,
     onSuccess: () => {

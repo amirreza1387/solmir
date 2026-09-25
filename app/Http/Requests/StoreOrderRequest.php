@@ -25,7 +25,7 @@ class StoreOrderRequest extends FormRequest
         return [
             'title' => ['required', 'string', 'max:255'],
             'service_type' => ['required', 'string', 'max:255'],
-            'description' => ['required', 'string'],
+            'description' => ['required', 'string', 'max:10000'],
             'budget_range' => ['nullable', 'string', 'max:255'],
             'deadline' => ['nullable', 'date'],
             'attachments' => ['nullable', 'array', 'max:5'],
