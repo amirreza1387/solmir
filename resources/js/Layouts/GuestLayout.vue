@@ -1,6 +1,6 @@
 <script setup>
 import { Link } from '@inertiajs/vue3';
-import { Sparkles, ArrowRight } from 'lucide-vue-next';
+import { ArrowRight } from 'lucide-vue-next';
 import FlashMessages from '@/Components/FlashMessages.vue';
 </script>
 
@@ -10,9 +10,13 @@ import FlashMessages from '@/Components/FlashMessages.vue';
     <!-- Brand Logo -->
     <div class="mb-8 text-center relative z-10">
       <Link href="/" class="inline-flex items-center gap-3 group">
-        <div class="w-12 h-12 rounded-xl bg-blue-700 flex items-center justify-center text-white">
-          <Sparkles class="w-6 h-6" />
-        </div>
+        <img 
+          src="/favicon-32x32.png" 
+          alt="لوگوی سلمیر" 
+          class="w-12 h-12 rounded-xl object-contain shadow-xs group-hover:scale-105 transition-transform" 
+          width="48" 
+          height="48" 
+        />
         <div class="text-right">
           <span class="text-3xl font-black tracking-tight text-slate-900 group-hover:text-blue-600 transition-colors block">
             سلمیر
