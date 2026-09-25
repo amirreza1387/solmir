@@ -85,6 +85,10 @@ body {
     .ui-table td { padding: .875rem 1rem; border-top: 1px solid var(--color-line); }
     .ui-empty { padding: 3rem 1.5rem; text-align: center; color: var(--color-muted); }
     .ui-badge { display: inline-flex; align-items: center; border-radius: 9999px; padding: .25rem .75rem; font-size: .75rem; font-weight: 700; }
+    .bg-tech-grid { background-image: radial-gradient(circle, #cbd5e1 1px, transparent 1px); background-size: 24px 24px; }
+    .bg-tech-grid-dense { background-image: radial-gradient(circle, #cbd5e1 1px, transparent 1px); background-size: 16px 16px; }
+    .bg-tech-lines { background-image: linear-gradient(to right, rgba(226, 232, 240, 0.7) 1px, transparent 1px), linear-gradient(to bottom, rgba(226, 232, 240, 0.7) 1px, transparent 1px); background-size: 32px 32px; }
+    .bg-tech-grid-dark { background-image: radial-gradient(circle, rgba(71, 85, 105, 0.45) 1px, transparent 1px); background-size: 24px 24px; }
 }
 
 @media (min-width: 640px) {

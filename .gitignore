@@ -29,3 +29,4 @@ Thumbs.db
 /database/*.sqlite-*
 /storage/app/order_attachments/*
 !/storage/app/order_attachments/.gitignore
+/screenshots
