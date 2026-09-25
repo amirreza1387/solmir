@@ -1,5 +1,5 @@
 <script setup>
-import { Head, Link, useForm } from '@inertiajs/vue3';
+import { Head, Link, useForm, usePage } from '@inertiajs/vue3';
 import AppLayout from '@/Layouts/AppLayout.vue';
 import { 
   PlusCircle, 
@@ -41,6 +41,24 @@ const budgetOptions = [
   'بیش از ۷۰ میلیون تومان'
 ];
 
+const query = new URLSearchParams(usePage().url.split('?')[1] || '');
+const selectedService = query.get('service_type');
+const selectedBudget = query.get('budget_range');
+if (serviceOptions.some(option => option.name === selectedService)) {
+  form.service_type = selectedService;
+}
+if (budgetOptions.includes(selectedBudget)) {
+  form.budget_range = selectedBudget;
+}
+const estimateDetails = [
+  query.get('estimate')?.slice(0, 80),
+  query.get('design_level')?.slice(0, 40),
+  query.get('add_ons')?.slice(0, 300),
+].filter(Boolean);
+if (serviceOptions.some(option => option.name === selectedService) && estimateDetails.length) {
+  form.description = `برآورد اولیه ثبت‌شده در سایت:\nنوع پروژه: ${form.service_type}\nبرآورد هزینه و زمان: ${estimateDetails[0] || 'نیازمند بررسی'}\nسطح طراحی: ${estimateDetails[1] || 'مشخص نشده'}\nامکانات انتخابی: ${estimateDetails[2] || 'موردی انتخاب نشده'}\n\nتوضیحات تکمیلی پروژه:\n`;
+}
+
 const submit = () => {
   form.post(route('orders.store'), {
     preserveScroll: true,
@@ -79,6 +97,10 @@ const handleFileUpload = (e) => {
       </div>
 
       <!-- Main Form Card -->
+      <div v-if="estimateDetails.length" class="ui-card border-blue-200 bg-blue-50 p-5 text-sm text-blue-900" role="status">
+        <h2 class="font-bold">مشخصات برآورد اولیه به فرم منتقل شد</h2>
+        <p class="mt-1">جزئیات در بخش توضیحات قابل ویرایش است. هزینه و زمان پس از بررسی پروژه مشخص می‌شود.</p>
+      </div>
       <div class="bg-white rounded-3xl p-6 sm:p-10 border border-slate-200/90 shadow-sm">
         <form @submit.prevent="submit" class="space-y-8">
           
@@ -199,7 +221,7 @@ const handleFileUpload = (e) => {
             <button 
               type="submit"
               :disabled="form.processing"
-              class="px-8 py-3.5 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold text-sm shadow-md shadow-blue-500/25 hover:shadow-lg transition disabled:opacity-50 flex items-center gap-2 cursor-pointer"
+              class="ui-button ui-button-primary"
             >
               <PlusCircle class="w-4 h-4" />
               <span>{{ form.processing ? 'در حال ثبت سفارش...' : 'تایید و ثبت نهایی سفارش' }}</span>

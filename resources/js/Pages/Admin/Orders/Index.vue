@@ -25,15 +25,7 @@
               <td class="p-4">{{ order.user?.name || 'کاربر' }}</td>
               <td class="p-4 font-medium">{{ order.title }}</td>
               <td class="p-4">
-                <span class="px-2 py-1 text-xs rounded-full" :class="{
-                  'bg-yellow-100 text-yellow-700': order.status === 'pending',
-                  'bg-blue-100 text-blue-700': order.status === 'confirmed',
-                  'bg-purple-100 text-purple-700': order.status === 'in_progress',
-                  'bg-green-100 text-green-700': order.status === 'completed',
-                  'bg-red-100 text-red-700': order.status === 'cancelled',
-                }">
-                  {{ getStatusText(order.status) }}
-                </span>
+                <StatusBadge :status="order.status" />
               </td>
               <td class="p-4 text-slate-600">{{ new Date(order.created_at).toLocaleDateString('fa-IR') }}</td>
               <td class="p-4">
@@ -69,19 +61,10 @@
 <script setup>
 import { Head, Link } from '@inertiajs/vue3';
 import AdminLayout from '@/Layouts/AdminLayout.vue';
+import StatusBadge from '@/Components/StatusBadge.vue';
 
 defineProps({
   orders: Object,
 });
 
-const getStatusText = (status) => {
-  const statuses = {
-    pending: 'در انتظار بررسی',
-    confirmed: 'تایید شده',
-    in_progress: 'در حال انجام',
-    completed: 'تکمیل شده',
-    cancelled: 'لغو شده'
-  };
-  return statuses[status] || status;
-};
 </script>

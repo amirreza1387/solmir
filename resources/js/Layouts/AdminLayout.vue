@@ -3,7 +3,7 @@
     <FlashMessages />
 
     <!-- Sidebar -->
-    <aside
+    <aside id="admin-sidebar"
       class="fixed inset-y-0 right-0 w-64 bg-slate-900 text-white transition-transform duration-300 z-50 md:translate-x-0 flex flex-col justify-between"
       :class="isSidebarOpen ? 'translate-x-0' : 'translate-x-full'"
     >
@@ -18,7 +18,7 @@
               <span class="text-[10px] text-blue-400 font-bold block -mt-1">پنل مدیریت پیشرفته</span>
             </div>
           </Link>
-          <button class="md:hidden text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800" @click="isSidebarOpen = false" aria-label="بستن منو">
+          <button class="md:hidden flex min-h-11 min-w-11 items-center justify-center text-slate-400 hover:text-white rounded-lg hover:bg-slate-800" @click="isSidebarOpen = false" aria-label="بستن منو">
             <X class="w-5 h-5" />
           </button>
         </div>
@@ -66,18 +66,19 @@
     </aside>
 
     <!-- Overlay -->
-    <div
+    <button type="button"
       v-if="isSidebarOpen"
       class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-40 md:hidden"
       @click="isSidebarOpen = false"
-    ></div>
+      aria-label="بستن منوی مدیریت"
+    ></button>
 
     <!-- Main Content -->
     <div class="flex-1 md:mr-64 flex flex-col min-h-screen">
       <!-- Topbar -->
       <header class="bg-white/80 backdrop-blur-md border-b border-slate-200 h-16 flex items-center justify-between px-6 sticky top-0 z-30">
         <div class="flex items-center gap-4">
-          <button class="md:hidden text-slate-600 hover:text-slate-900 p-1.5 rounded-lg hover:bg-slate-100" @click="isSidebarOpen = true" aria-label="منو">
+          <button class="md:hidden flex min-h-11 min-w-11 items-center justify-center text-slate-600 hover:text-slate-900 rounded-lg hover:bg-slate-100" @click="isSidebarOpen = true" :aria-expanded="isSidebarOpen" aria-controls="admin-sidebar" aria-label="باز کردن منو">
             <Menu class="w-5 h-5" />
           </button>
           <h2 class="font-bold text-slate-800 text-sm sm:text-base">سیستم مدیریت سلمیر</h2>

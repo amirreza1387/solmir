@@ -1,6 +1,7 @@
 <script setup>
 import { Head, Link } from '@inertiajs/vue3';
 import AppLayout from '@/Layouts/AppLayout.vue';
+import StatusBadge from '@/Components/StatusBadge.vue';
 import { 
   ShoppingBag, 
   ArrowLeft, 
@@ -21,16 +22,6 @@ const props = defineProps({
   }
 });
 
-const getStatusBadge = (status) => {
-  const map = {
-    pending: { label: 'در انتظار بررسی اولیه', class: 'bg-amber-100 text-amber-800 border-amber-200' },
-    confirmed: { label: 'تایید شده و آماده قرارداد', class: 'bg-blue-100 text-blue-800 border-blue-200' },
-    in_progress: { label: 'در حال توسعه فنی', class: 'bg-indigo-100 text-indigo-800 border-indigo-200' },
-    completed: { label: 'پروژه تکمیل و تحویل داده شد', class: 'bg-emerald-100 text-emerald-800 border-emerald-200' },
-    cancelled: { label: 'سفارش لغو شده', class: 'bg-rose-100 text-rose-800 border-rose-200' }
-  };
-  return map[status] || { label: status, class: 'bg-slate-100 text-slate-800 border-slate-200' };
-};
 
 const getStepNumber = (status) => {
   if (status === 'pending') return 1;
@@ -66,12 +57,7 @@ const getStepNumber = (status) => {
       <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-xs">
         <div class="flex items-center justify-between mb-4">
           <div class="text-xs font-bold text-slate-500">مسیر پیشرفت سفارش</div>
-          <span 
-            class="px-3 py-1 rounded-full text-xs font-bold border"
-            :class="getStatusBadge(order.status).class"
-          >
-            {{ getStatusBadge(order.status).label }}
-          </span>
+          <StatusBadge :status="order.status" />
         </div>
 
         <div class="grid grid-cols-4 gap-2 pt-2">

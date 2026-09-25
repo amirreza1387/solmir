@@ -5,17 +5,13 @@ import FlashMessages from '@/Components/FlashMessages.vue';
 </script>
 
 <template>
-  <div class="min-h-screen bg-slate-50 flex flex-col justify-center items-center p-4 relative overflow-hidden bg-radial-glow bg-dot-pattern" dir="rtl">
+  <div class="min-h-screen bg-canvas flex flex-col justify-center items-center p-4" dir="rtl">
     <FlashMessages />
-    <!-- Ambient glowing orbs -->
-    <div class="absolute -top-32 right-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl pointer-events-none animate-pulse-slow"></div>
-    <div class="absolute -bottom-32 left-1/4 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none animate-float-slow"></div>
-
     <!-- Brand Logo -->
     <div class="mb-8 text-center relative z-10">
       <Link href="/" class="inline-flex items-center gap-3 group">
-        <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-blue-700 via-blue-600 to-indigo-500 flex items-center justify-center text-white shadow-lg shadow-blue-500/30 group-hover:scale-105 transition-all">
-          <Sparkles class="w-6 h-6 animate-pulse" />
+        <div class="w-12 h-12 rounded-xl bg-blue-700 flex items-center justify-center text-white">
+          <Sparkles class="w-6 h-6" />
         </div>
         <div class="text-right">
           <span class="text-3xl font-black tracking-tight text-slate-900 group-hover:text-blue-600 transition-colors block">
@@ -29,7 +25,7 @@ import FlashMessages from '@/Components/FlashMessages.vue';
     </div>
 
     <!-- Form Card -->
-    <div class="w-full sm:max-w-md bg-white/90 backdrop-blur-xl rounded-3xl p-8 sm:p-10 shadow-2xl shadow-blue-500/5 border border-slate-200/90 relative z-10">
+    <div class="ui-card w-full sm:max-w-md p-6 sm:p-10 relative z-10">
       <slot />
     </div>
 

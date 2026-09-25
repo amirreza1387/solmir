@@ -11,39 +11,39 @@
       <form @submit.prevent="submit" class="space-y-6">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <label class="block text-sm font-medium text-slate-700 mb-1">عنوان</label>
-            <input v-model="form.title" type="text" class="w-full border-slate-300 rounded-lg focus:ring-blue-500 focus:border-blue-500">
+            <label for="portfolio-title" class="block text-sm font-medium text-slate-700 mb-1">عنوان</label>
+            <input id="portfolio-title" v-model="form.title" type="text" class="ui-field">
             <div v-if="form.errors.title" class="text-red-500 text-sm mt-1">{{ form.errors.title }}</div>
           </div>
           <div>
-            <label class="block text-sm font-medium text-slate-700 mb-1">نامک (Slug)</label>
-            <input v-model="form.slug" type="text" class="w-full border-slate-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" dir="ltr">
+            <label for="portfolio-slug" class="block text-sm font-medium text-slate-700 mb-1">نامک (Slug)</label>
+            <input id="portfolio-slug" v-model="form.slug" type="text" class="ui-field" dir="ltr">
             <div v-if="form.errors.slug" class="text-red-500 text-sm mt-1">{{ form.errors.slug }}</div>
           </div>
         </div>
 
         <div>
-          <label class="block text-sm font-medium text-slate-700 mb-1">توضیحات</label>
-          <textarea v-model="form.description" rows="4" class="w-full border-slate-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"></textarea>
+          <label for="portfolio-description" class="block text-sm font-medium text-slate-700 mb-1">توضیحات</label>
+          <textarea id="portfolio-description" v-model="form.description" rows="4" class="ui-field"></textarea>
           <div v-if="form.errors.description" class="text-red-500 text-sm mt-1">{{ form.errors.description }}</div>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <label class="block text-sm font-medium text-slate-700 mb-1">نام مشتری</label>
-            <input v-model="form.client_name" type="text" class="w-full border-slate-300 rounded-lg focus:ring-blue-500 focus:border-blue-500">
+            <label for="portfolio-client_name" class="block text-sm font-medium text-slate-700 mb-1">نام مشتری</label>
+            <input id="portfolio-client_name" v-model="form.client_name" type="text" class="ui-field">
           </div>
           <div>
-            <label class="block text-sm font-medium text-slate-700 mb-1">دسته‌بندی</label>
-            <input v-model="form.category" type="text" class="w-full border-slate-300 rounded-lg focus:ring-blue-500 focus:border-blue-500">
+            <label for="portfolio-category" class="block text-sm font-medium text-slate-700 mb-1">دسته‌بندی</label>
+            <input id="portfolio-category" v-model="form.category" type="text" class="ui-field">
             <div v-if="form.errors.category" class="text-red-500 text-sm mt-1">{{ form.errors.category }}</div>
           </div>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <label class="block text-sm font-medium text-slate-700 mb-1">لینک پروژه (URL)</label>
-            <input v-model="form.url" type="url" class="w-full border-slate-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" dir="ltr">
+            <label for="portfolio-url" class="block text-sm font-medium text-slate-700 mb-1">لینک پروژه (URL)</label>
+            <input id="portfolio-url" v-model="form.url" type="url" class="ui-field" dir="ltr">
           </div>
           <div>
             <label class="block text-sm font-medium text-slate-700 mb-1">تصویر (اختیاری)</label>
@@ -61,7 +61,7 @@
         </div>
 
         <div class="pt-4 flex gap-3">
-          <button type="submit" :disabled="form.processing" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50">
+          <button type="submit" :disabled="form.processing" class="ui-button ui-button-primary">
             ذخیره تغییرات
           </button>
         </div>

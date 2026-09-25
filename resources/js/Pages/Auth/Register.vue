@@ -29,7 +29,7 @@ const submit = () => {
 
     <form @submit.prevent="submit" class="space-y-4">
       <div>
-        <label for="name" class="block font-bold text-xs text-slate-700 mb-1.5">نام و نام خانوادگی *</label>
+        <label for="name" class="block font-bold text-sm text-slate-700 mb-1.5">نام و نام خانوادگی *</label>
         <div class="relative">
           <input
             id="name"
@@ -46,7 +46,7 @@ const submit = () => {
       </div>
 
       <div>
-        <label for="email" class="block font-bold text-xs text-slate-700 mb-1.5">آدرس ایمیل *</label>
+        <label for="email" class="block font-bold text-sm text-slate-700 mb-1.5">آدرس ایمیل *</label>
         <div class="relative">
           <input
             id="email"
@@ -63,7 +63,7 @@ const submit = () => {
       </div>
 
       <div>
-        <label for="phone" class="block font-bold text-xs text-slate-700 mb-1.5">شماره موبایل *</label>
+        <label for="phone" class="block font-bold text-sm text-slate-700 mb-1.5">شماره موبایل *</label>
         <div class="relative">
           <input
             id="phone"
@@ -80,7 +80,7 @@ const submit = () => {
       </div>
 
       <div>
-        <label for="password" class="block font-bold text-xs text-slate-700 mb-1.5">رمز عبور (حداقل ۸ کاراکتر) *</label>
+        <label for="password" class="block font-bold text-sm text-slate-700 mb-1.5">رمز عبور (حداقل ۸ کاراکتر) *</label>
         <div class="relative">
           <input
             id="password"
@@ -97,7 +97,7 @@ const submit = () => {
       </div>
 
       <div>
-        <label for="password_confirmation" class="block font-bold text-xs text-slate-700 mb-1.5">تکرار رمز عبور *</label>
+        <label for="password_confirmation" class="block font-bold text-sm text-slate-700 mb-1.5">تکرار رمز عبور *</label>
         <div class="relative">
           <input
             id="password_confirmation"

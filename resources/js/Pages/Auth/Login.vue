@@ -37,7 +37,7 @@ const fillAdminCredentials = () => {
 
     <form @submit.prevent="submit" class="space-y-4">
       <div>
-        <label for="email" class="block font-bold text-xs text-slate-700 mb-1.5">ایمیل یا شماره موبایل</label>
+        <label for="email" class="block font-bold text-sm text-slate-700 mb-1.5">ایمیل یا شماره موبایل</label>
         <div class="relative">
           <input
             id="email"
@@ -54,7 +54,7 @@ const fillAdminCredentials = () => {
       </div>
 
       <div>
-        <label for="password" class="block font-bold text-xs text-slate-700 mb-1.5">رمز عبور</label>
+        <label for="password" class="block font-bold text-sm text-slate-700 mb-1.5">رمز عبور</label>
         <div class="relative">
           <input
             id="password"

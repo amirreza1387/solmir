@@ -48,7 +48,10 @@ import FlashMessages from '@/Components/FlashMessages.vue';
       
       <button 
         @click="isMobileMenuOpen = !isMobileMenuOpen" 
-        class="p-2 rounded-xl text-slate-600 hover:text-blue-600 hover:bg-slate-100 transition"
+        class="flex min-h-11 min-w-11 items-center justify-center rounded-xl text-slate-600 hover:text-blue-600 hover:bg-slate-100 transition"
+        :aria-expanded="isMobileMenuOpen"
+        aria-controls="customer-sidebar"
+        aria-label="فهرست پنل کاربری"
       >
         <Menu v-if="!isMobileMenuOpen" class="w-6 h-6" />
         <X v-else class="w-6 h-6" />
@@ -56,9 +59,9 @@ import FlashMessages from '@/Components/FlashMessages.vue';
     </div>
 
     <!-- Sidebar -->
-    <aside 
+    <aside id="customer-sidebar"
       :class="{'hidden': !isMobileMenuOpen, 'block': isMobileMenuOpen}" 
-      class="md:block w-full md:w-72 bg-white border-l border-slate-200/90 shadow-xs md:min-h-screen shrink-0 z-30"
+      class="md:block w-full md:w-[272px] bg-white border-l border-slate-200/90 shadow-xs md:min-h-screen shrink-0 z-30"
     >
       <!-- Brand Logo in Desktop Sidebar -->
       <div class="hidden md:flex items-center justify-between p-6 border-b border-slate-100">
@@ -77,7 +80,7 @@ import FlashMessages from '@/Components/FlashMessages.vue';
       <div class="p-4 border-b border-slate-100">
         <Link 
           :href="route('orders.create')" 
-          class="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold text-xs shadow-md shadow-blue-500/20 hover:shadow-lg transition"
+          class="ui-button ui-button-primary w-full"
         >
           <PlusCircle class="w-4 h-4" />
           <span>ثبت سفارش اختصاصی جدید</span>
@@ -139,8 +142,8 @@ import FlashMessages from '@/Components/FlashMessages.vue';
     <!-- Main Content Area -->
     <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
       <!-- Topbar Desktop -->
-      <header class="bg-white/80 backdrop-blur-md border-b border-slate-200 hidden md:block">
-        <div class="max-w-7xl mx-auto py-3.5 px-6 lg:px-8 flex items-center justify-between">
+      <header class="bg-white border-b border-slate-200 hidden md:block">
+        <div class="h-16 max-w-7xl mx-auto px-6 lg:px-8 flex items-center justify-between">
           <div class="text-xs text-slate-500">
             خوش آمدید، <span class="font-bold text-slate-800">{{ user?.name }}</span>
           </div>

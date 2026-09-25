@@ -1,6 +1,7 @@
 <script setup>
 import { Head, Link, usePage } from '@inertiajs/vue3';
 import AppLayout from '@/Layouts/AppLayout.vue';
+import StatusBadge from '@/Components/StatusBadge.vue';
 import { 
   ShoppingBag, 
   MessageSquare, 
@@ -37,26 +38,7 @@ const props = defineProps({
 const page = usePage();
 const user = page.props.auth?.user;
 
-const getStatusBadge = (status) => {
-  const map = {
-    pending: { label: 'در انتظار بررسی', class: 'bg-amber-100 text-amber-800' },
-    confirmed: { label: 'تایید شده', class: 'bg-blue-100 text-blue-800' },
-    in_progress: { label: 'در حال انجام', class: 'bg-indigo-100 text-indigo-800' },
-    completed: { label: 'تکمیل شده', class: 'bg-emerald-100 text-emerald-800' },
-    cancelled: { label: 'لغو شده', class: 'bg-rose-100 text-rose-800' },
-  };
-  return map[status] || { label: status, class: 'bg-slate-100 text-slate-800' };
-};
 
-const getTicketStatusBadge = (status) => {
-  const map = {
-    open: { label: 'باز', class: 'bg-emerald-100 text-emerald-800' },
-    in_progress: { label: 'در حال بررسی', class: 'bg-blue-100 text-blue-800' },
-    answered: { label: 'پاسخ داده شده', class: 'bg-purple-100 text-purple-800' },
-    closed: { label: 'بسته شده', class: 'bg-slate-100 text-slate-800' },
-  };
-  return map[status] || { label: status, class: 'bg-slate-100 text-slate-800' };
-};
 </script>
 
 <template>
@@ -188,9 +170,7 @@ const getTicketStatusBadge = (status) => {
                   <div class="text-xs text-slate-400 font-mono">{{ order.order_number }} • {{ order.service_type }}</div>
                 </div>
                 <div class="flex items-center gap-3">
-                  <span class="px-2.5 py-1 rounded-full text-xs font-bold" :class="getStatusBadge(order.status).class">
-                    {{ getStatusBadge(order.status).label }}
-                  </span>
+                  <StatusBadge :status="order.status" />
                   <Link :href="route('orders.show', order.id)" class="text-xs text-blue-600 hover:text-blue-800 font-bold">
                     جزئیات
                   </Link>
@@ -240,9 +220,7 @@ const getTicketStatusBadge = (status) => {
                   <div class="text-xs text-slate-400 font-mono">{{ ticket.ticket_number }}</div>
                 </div>
                 <div class="flex items-center gap-3">
-                  <span class="px-2.5 py-1 rounded-full text-xs font-bold" :class="getTicketStatusBadge(ticket.status).class">
-                    {{ getTicketStatusBadge(ticket.status).label }}
-                  </span>
+                  <StatusBadge :status="ticket.status" kind="ticket" />
                   <Link :href="route('tickets.show', ticket.id)" class="text-xs text-blue-600 hover:text-blue-800 font-bold">
                     مشاهده گفتگو
                   </Link>

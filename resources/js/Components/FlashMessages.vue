@@ -52,20 +52,21 @@ onMounted(() => {
 
 <template>
   <Transition
-    enter-active-class="transform ease-out duration-300 transition"
+    enter-active-class="transform ease-out duration-180 transition"
     enter-from-class="translate-y-4 opacity-0 sm:translate-y-0 sm:-translate-x-4"
     enter-to-class="translate-y-0 opacity-100 sm:translate-x-0"
-    leave-active-class="transition ease-in duration-200"
+    leave-active-class="transition ease-in duration-140"
     leave-from-class="opacity-100"
     leave-to-class="opacity-0"
   >
     <div
       v-if="show"
-      class="fixed top-5 left-5 z-50 max-w-md w-full shadow-2xl rounded-2xl p-4 border backdrop-blur-md flex items-start gap-3 transition-all"
+      class="fixed inset-x-4 top-4 z-[60] flex w-auto max-w-md items-start gap-3 rounded-xl border bg-white p-4 shadow-lg transition-all duration-180 sm:inset-x-auto sm:left-5 sm:top-5 sm:w-full"
       :class="type === 'success' 
         ? 'bg-white/95 border-emerald-200 text-slate-800 ring-1 ring-emerald-500/20 shadow-emerald-500/10' 
         : 'bg-white/95 border-rose-200 text-slate-800 ring-1 ring-rose-500/20 shadow-rose-500/10'"
       dir="rtl"
+      :role="type === 'error' ? 'alert' : 'status'"
     >
       <div 
         class="w-9 h-9 rounded-xl flex items-center justify-center shrink-0"
@@ -86,7 +87,8 @@ onMounted(() => {
 
       <button
         @click="dismiss"
-        class="text-slate-400 hover:text-slate-600 p-1 rounded-lg hover:bg-slate-100 transition shrink-0"
+        class="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg text-slate-600 hover:bg-slate-100"
+        aria-label="بستن اعلان"
       >
         <X class="w-4 h-4" />
       </button>

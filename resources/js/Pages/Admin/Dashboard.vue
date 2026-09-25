@@ -75,9 +75,7 @@
                 </td>
                 <td class="p-3.5 font-medium text-slate-800">{{ order.user?.name || 'کاربر' }}</td>
                 <td class="p-3.5">
-                  <span class="px-2 py-0.5 rounded-full font-bold" :class="getOrderStatusBadge(order.status).class">
-                    {{ getOrderStatusBadge(order.status).label }}
-                  </span>
+                  <StatusBadge :status="order.status" />
                 </td>
               </tr>
               <tr v-if="latestOrders.length === 0">
@@ -112,9 +110,7 @@
                 </td>
                 <td class="p-3.5 text-slate-600">{{ ticket.user?.name || 'کاربر' }}</td>
                 <td class="p-3.5">
-                  <span class="px-2 py-0.5 rounded-full font-bold" :class="getTicketStatusBadge(ticket.status).class">
-                    {{ getTicketStatusBadge(ticket.status).label }}
-                  </span>
+                  <StatusBadge :status="ticket.status" kind="ticket" />
                 </td>
               </tr>
               <tr v-if="latestTickets.length === 0">
@@ -131,6 +127,7 @@
 <script setup>
 import { Head, Link } from '@inertiajs/vue3';
 import AdminLayout from '@/Layouts/AdminLayout.vue';
+import StatusBadge from '@/Components/StatusBadge.vue';
 import { Users, ShoppingBag, MessageSquare, Mail } from 'lucide-vue-next';
 
 defineProps({
@@ -142,24 +139,5 @@ defineProps({
   latestTickets: Array,
 });
 
-const getOrderStatusBadge = (status) => {
-  const map = {
-    pending: { label: 'در انتظار بررسی', class: 'bg-amber-100 text-amber-800' },
-    confirmed: { label: 'تایید شده', class: 'bg-blue-100 text-blue-800' },
-    in_progress: { label: 'در حال انجام', class: 'bg-indigo-100 text-indigo-800' },
-    completed: { label: 'تکمیل شده', class: 'bg-emerald-100 text-emerald-800' },
-    cancelled: { label: 'لغو شده', class: 'bg-rose-100 text-rose-800' }
-  };
-  return map[status] || { label: status, class: 'bg-slate-100 text-slate-700' };
-};
 
-const getTicketStatusBadge = (status) => {
-  const map = {
-    open: { label: 'باز', class: 'bg-amber-100 text-amber-800' },
-    in_progress: { label: 'در حال بررسی', class: 'bg-blue-100 text-blue-800' },
-    answered: { label: 'پاسخ داده شده', class: 'bg-purple-100 text-purple-800' },
-    closed: { label: 'بسته شده', class: 'bg-slate-100 text-slate-600' }
-  };
-  return map[status] || { label: status, class: 'bg-slate-100 text-slate-700' };
-};
 </script>

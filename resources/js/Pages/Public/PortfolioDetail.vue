@@ -7,7 +7,6 @@ import {
   Briefcase, 
   User, 
   Calendar, 
-  CheckCircle2, 
   Sparkles, 
   Layers 
 } from 'lucide-vue-next';
@@ -50,32 +49,8 @@ defineProps({
                 class="w-full max-h-[500px] object-cover"
               />
               
-              <!-- Futuristic Simulated Mockup Graphic -->
-              <div v-else class="h-96 bg-gradient-to-tr from-slate-950 via-slate-900 to-blue-950 p-6 sm:p-10 flex flex-col justify-between text-white relative">
-                <div class="flex items-center justify-between">
-                  <div class="flex items-center gap-2">
-                    <span class="w-3 h-3 rounded-full bg-red-400"></span>
-                    <span class="w-3 h-3 rounded-full bg-amber-400"></span>
-                    <span class="w-3 h-3 rounded-full bg-emerald-400"></span>
-                  </div>
-                  <span class="px-3 py-1 rounded-full bg-white/10 text-xs font-mono text-blue-200 backdrop-blur-md">
-                    {{ portfolio.category }}
-                  </span>
-                </div>
-
-                <div class="max-w-md mx-auto w-full bg-white/10 backdrop-blur-xl p-6 rounded-2xl border border-white/10 shadow-2xl text-center space-y-3">
-                  <div class="w-12 h-12 rounded-xl bg-blue-600 text-white flex items-center justify-center mx-auto shadow-md">
-                    <Sparkles class="w-6 h-6" />
-                  </div>
-                  <h3 class="text-xl font-black text-white">{{ portfolio.title }}</h3>
-                  <div class="text-xs text-blue-200 font-mono">طراحی و پیاده‌سازی مهندسی‌شده سلمیر</div>
-                </div>
-
-                <div class="flex items-center justify-between text-xs text-slate-400 font-mono">
-                  <span>Verified Architecture</span>
-                  <span>Core Web Vitals Passed</span>
-                </div>
-              </div>
+              <!-- Image unavailable -->
+              <div v-else class="flex h-64 items-center justify-center bg-slate-100 p-8 text-center text-sm text-slate-500">تصویری برای این پروژه ثبت نشده است.</div>
             </div>
 
             <!-- Title & Description -->
@@ -92,28 +67,6 @@ defineProps({
                 </p>
               </div>
 
-              <!-- Technical Highlights -->
-              <div class="border-t border-slate-100 pt-6">
-                <h3 class="text-base font-bold text-slate-900 mb-4">ویژگی‌های فنی پیاده‌سازی‌شده:</h3>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs text-slate-700">
-                  <div class="flex items-center gap-2 p-3 rounded-xl bg-slate-50 border border-slate-100">
-                    <CheckCircle2 class="w-4 h-4 text-emerald-500 shrink-0" />
-                    <span>کدنویسی تمیز با Laravel و Vue 3</span>
-                  </div>
-                  <div class="flex items-center gap-2 p-3 rounded-xl bg-slate-50 border border-slate-100">
-                    <CheckCircle2 class="w-4 h-4 text-emerald-500 shrink-0" />
-                    <span>لودینگ پرسرعت و بهینه‌سازی تصاویر</span>
-                  </div>
-                  <div class="flex items-center gap-2 p-3 rounded-xl bg-slate-50 border border-slate-100">
-                    <CheckCircle2 class="w-4 h-4 text-emerald-500 shrink-0" />
-                    <span>طراحی رابط کاربری اختصاصی بر اساس هویت برند</span>
-                  </div>
-                  <div class="flex items-center gap-2 p-3 rounded-xl bg-slate-50 border border-slate-100">
-                    <CheckCircle2 class="w-4 h-4 text-emerald-500 shrink-0" />
-                    <span>سازگاری ۱۰۰٪ با انواع صفحات نمایش و تبلت</span>
-                  </div>
-                </div>
-              </div>
             </div>
 
           </div>
@@ -145,7 +98,7 @@ defineProps({
                 <div class="flex items-start justify-between">
                   <span class="text-slate-400 flex items-center gap-1.5">
                     <Calendar class="w-4 h-4 text-blue-600" />
-                    تاریخ اجرا:
+                    تاریخ ثبت:
                   </span>
                   <span class="font-bold text-slate-800 font-mono">{{ new Date(portfolio.created_at).toLocaleDateString('fa-IR') }}</span>
                 </div>

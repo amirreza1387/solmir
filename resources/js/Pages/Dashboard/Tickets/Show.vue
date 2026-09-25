@@ -1,6 +1,7 @@
 <script setup>
 import { Head, Link, useForm } from '@inertiajs/vue3';
 import AppLayout from '@/Layouts/AppLayout.vue';
+import StatusBadge from '@/Components/StatusBadge.vue';
 import { ref, onMounted, nextTick } from 'vue';
 import { 
   MessageSquare, 
@@ -49,15 +50,6 @@ onMounted(() => {
   scrollToBottom();
 });
 
-const getStatusBadge = (status) => {
-  const map = {
-    open: { label: 'تیکت باز', class: 'bg-emerald-100 text-emerald-800 border-emerald-200' },
-    in_progress: { label: 'در حال بررسی فنی', class: 'bg-blue-100 text-blue-800 border-blue-200' },
-    answered: { label: 'پاسخ پشتیبان', class: 'bg-purple-100 text-purple-800 border-purple-200' },
-    closed: { label: 'بسته شده', class: 'bg-slate-100 text-slate-700 border-slate-200' }
-  };
-  return map[status] || { label: status, class: 'bg-slate-100 text-slate-800 border-slate-200' };
-};
 </script>
 
 <template>
@@ -86,12 +78,7 @@ const getStatusBadge = (status) => {
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
             <div class="flex items-center gap-2 mb-1.5">
-              <span 
-                class="px-2.5 py-0.5 rounded-full text-xs font-bold border"
-                :class="getStatusBadge(ticket.status).class"
-              >
-                {{ getStatusBadge(ticket.status).label }}
-              </span>
+              <StatusBadge :status="ticket.status" kind="ticket" />
               <span class="text-xs text-slate-400 font-mono">
                 دسته‌بندی: {{ ticket.category || 'عمومی' }} • اولویت: {{ ticket.priority || 'متوسط' }}
               </span>

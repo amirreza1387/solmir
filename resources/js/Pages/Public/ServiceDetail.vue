@@ -7,7 +7,6 @@ import {
   CheckCircle2, 
   ShieldCheck, 
   Clock, 
-  Zap, 
   PlusCircle, 
   MessageSquare,
   Layers,
@@ -20,15 +19,6 @@ defineProps({
     required: true,
   },
 });
-
-const serviceFeatures = [
-  'طراحی کاملاً اختصاصی و متناسب با هویت برند',
-  'کدنویسی استاندارد و بهینه‌سازی‌شده برای سئو',
-  'واکنش‌گرایی ۱۰۰٪ در تمامی نمایشگرها و موبایل‌ها',
-  'امنیت بالا و رعایت استانداردهای OWASP',
-  'سرعت بارگذاری فوق‌العاده با لود زیر ۲ ثانیه',
-  'پشتیبانی فنی و نگهداری مستمر ۶ ماهه رایگان',
-];
 
 const workSteps = [
   { step: '۰۱', title: 'مشاوره و تحلیل نیازها', desc: 'بررسی دقیق حوزه فعالیت، اهداف تجاری و تحلیل رقبا' },
@@ -79,30 +69,11 @@ const workSteps = [
               </div>
             </div>
 
-            <!-- Features Grid -->
-            <div class="bg-white rounded-3xl p-8 border border-slate-200 shadow-xs space-y-6">
-              <div class="flex items-center gap-2 pb-4 border-b border-slate-100">
-                <Zap class="w-5 h-5 text-blue-600" />
-                <h3 class="text-xl font-bold text-slate-900">ویژگی‌ها و مزایای کلیدی</h3>
-              </div>
 
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div 
-                  v-for="(feature, idx) in serviceFeatures" 
-                  :key="idx"
-                  class="flex items-start gap-3 p-4 rounded-2xl bg-slate-50 border border-slate-100/80"
-                >
-                  <CheckCircle2 class="w-5 h-5 text-emerald-500 shrink-0 mt-0.5" />
-                  <span class="text-sm font-medium text-slate-800">{{ feature }}</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- Process Steps -->
             <div class="bg-white rounded-3xl p-8 border border-slate-200 shadow-xs space-y-6">
               <div class="flex items-center gap-2 pb-4 border-b border-slate-100">
                 <Clock class="w-5 h-5 text-blue-600" />
-                <h3 class="text-xl font-bold text-slate-900">مراحل انجام پروژه</h3>
+                <h3 class="text-xl font-bold text-slate-900">روند معمول همکاری</h3>
               </div>
 
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -129,13 +100,13 @@ const workSteps = [
               <div class="text-center pb-6 border-b border-slate-100">
                 <span class="text-xs font-bold text-blue-600 uppercase tracking-wider block mb-2">شروع همکاری</span>
                 <h3 class="text-xl font-black text-slate-900">سفارش {{ service.title }}</h3>
-                <p class="text-xs text-slate-500 mt-2">طراحی و اجرای حرفه‌ای با تضمین بالاترین استاندارد مهندسی وب</p>
+                <p class="text-xs text-slate-500 mt-2">جزئیات اجرا پس از بررسی نیازهای پروژه مشخص می‌شود.</p>
               </div>
 
               <div class="space-y-3">
                 <Link 
                   :href="route('orders.create')" 
-                  class="w-full flex items-center justify-center gap-2 py-3.5 px-4 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold text-sm shadow-md shadow-blue-500/25 hover:shadow-lg transition-all"
+                  class="ui-button ui-button-primary w-full"
                 >
                   <PlusCircle class="w-4 h-4" />
                   <span>ثبت آنلاین سفارش پروژه</span>
@@ -161,7 +132,7 @@ const workSteps = [
                 </div>
                 <div class="flex items-center gap-2">
                   <Clock class="w-4 h-4 text-amber-500 shrink-0" />
-                  <span>پشتیبانی فنی و تیکتینگ ۲۴/۷</span>
+                  <span>پیگیری درخواست‌ها از طریق پنل تیکت</span>
                 </div>
               </div>
             </div>

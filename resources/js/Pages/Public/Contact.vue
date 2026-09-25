@@ -1,6 +1,5 @@
 <script setup>
-import { computed } from 'vue';
-import { Head, useForm, usePage } from '@inertiajs/vue3';
+import { Head, useForm } from '@inertiajs/vue3';
 import PublicLayout from '@/Layouts/PublicLayout.vue';
 import { 
   Mail, 
@@ -14,8 +13,6 @@ import {
   HelpCircle
 } from 'lucide-vue-next';
 
-const page = usePage();
-const successMessage = computed(() => page.props.flash?.success);
 
 const form = useForm({
   name: '',
@@ -38,7 +35,7 @@ const submit = () => {
   
   <PublicLayout>
     <!-- Header -->
-    <div class="relative py-20 bg-radial-glow bg-dot-pattern border-b border-slate-200">
+    <div class="relative py-16 lg:py-20 bg-white border-b border-slate-200">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
         <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-blue-100/80 text-blue-700 text-xs font-bold mb-4">
           <MessageSquare class="w-4 h-4" />
@@ -139,23 +136,14 @@ const submit = () => {
                 ارسال پیام یا درخواست مشاوره
               </h3>
               <p class="text-slate-500 text-sm mb-8">
-                فرم زیر را تکمیل کنید، کارشناسان ما ظرف کمتر از ۴ ساعت کاری با شما تماس می‌گیرند.
+                فرم زیر را تکمیل کنید تا درخواست شما بررسی شود و پاسخ را دریافت کنید.
               </p>
-
-              <!-- Success Alert -->
-              <div 
-                v-if="successMessage" 
-                class="mb-6 p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-800 flex items-center gap-3 text-sm"
-              >
-                <CheckCircle2 class="w-5 h-5 text-emerald-600 shrink-0" />
-                <span>{{ successMessage }}</span>
-              </div>
 
               <form @submit.prevent="submit" class="space-y-6">
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   <div>
-                    <label class="block text-xs font-bold text-slate-700 mb-2">نام و نام خانوادگی *</label>
-                    <input 
+                    <label for="contact-name" class="block text-sm font-bold text-slate-700 mb-2">نام و نام خانوادگی *</label>
+                    <input id="contact-name"
                       v-model="form.name"
                       type="text" 
                       required
@@ -166,8 +154,8 @@ const submit = () => {
                   </div>
 
                   <div>
-                    <label class="block text-xs font-bold text-slate-700 mb-2">شماره تماس / موبایل *</label>
-                    <input 
+                    <label for="contact-phone" class="block text-sm font-bold text-slate-700 mb-2">شماره تماس / موبایل *</label>
+                    <input id="contact-phone"
                       v-model="form.phone"
                       type="tel" 
                       dir="ltr"
@@ -180,8 +168,8 @@ const submit = () => {
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   <div>
-                    <label class="block text-xs font-bold text-slate-700 mb-2">آدرس ایمیل *</label>
-                    <input 
+                    <label for="contact-email" class="block text-sm font-bold text-slate-700 mb-2">آدرس ایمیل *</label>
+                    <input id="contact-email"
                       v-model="form.email"
                       type="email" 
                       required
@@ -193,8 +181,8 @@ const submit = () => {
                   </div>
 
                   <div>
-                    <label class="block text-xs font-bold text-slate-700 mb-2">موضوع پیام یا نوع پروژه *</label>
-                    <input 
+                    <label for="contact-subject" class="block text-sm font-bold text-slate-700 mb-2">موضوع پیام یا نوع پروژه *</label>
+                    <input id="contact-subject"
                       v-model="form.subject"
                       type="text" 
                       required
@@ -206,8 +194,8 @@ const submit = () => {
                 </div>
 
                 <div>
-                  <label class="block text-xs font-bold text-slate-700 mb-2">شرح پیام یا جزئیات درخواست *</label>
-                  <textarea 
+                  <label for="contact-message" class="block text-sm font-bold text-slate-700 mb-2">شرح پیام یا جزئیات درخواست *</label>
+                  <textarea id="contact-message"
                     v-model="form.message"
                     rows="5"
                     required

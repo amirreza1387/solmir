@@ -37,43 +37,38 @@ const isActive = (href) => {
 </script>
 
 <template>
-  <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-xl border-b border-slate-200/70 transition-all duration-300">
+  <header class="sticky top-0 z-50 border-b border-slate-200 bg-white/95 backdrop-blur-md">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex items-center justify-between h-20">
+      <div class="flex h-16 items-center justify-between md:h-[68px] lg:h-[72px]">
         
         <!-- Logo & Brand -->
-        <div class="flex items-center gap-10">
+        <div class="flex items-center gap-8">
           <Link href="/" class="flex items-center gap-3 group">
-            <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-blue-700 via-blue-600 to-indigo-500 flex items-center justify-center text-white shadow-md shadow-blue-500/25 group-hover:scale-105 group-hover:shadow-blue-500/40 transition-all duration-300">
-              <Sparkles class="w-6 h-6 animate-pulse" />
+            <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-600 text-white">
+              <Sparkles class="h-5 w-5" aria-hidden="true" />
             </div>
             <div class="flex flex-col">
-              <span class="text-2xl font-black tracking-tight text-slate-900 group-hover:text-blue-600 transition-colors">
+              <span class="text-[22px] font-black text-slate-900 group-hover:text-blue-600 transition-colors">
                 سلمیر
               </span>
-              <span class="text-[10px] text-blue-600 font-semibold tracking-widest uppercase -mt-1">
+              <span class="text-xs font-semibold text-blue-700">
                 Solmir Digital
               </span>
             </div>
           </Link>
 
           <!-- Desktop Navigation -->
-          <nav class="hidden lg:flex items-center gap-1">
+          <nav class="hidden lg:flex items-center gap-1" aria-label="ناوبری اصلی">
             <Link 
               v-for="item in navItems" 
               :key="item.href" 
               :href="item.href"
-              class="relative px-4 py-2 text-sm font-medium rounded-full transition-all duration-200 flex items-center gap-1.5"
+              class="px-3 py-2.5 text-sm font-medium rounded-xl transition-colors duration-150"
               :class="isActive(item.href) 
-                ? 'text-blue-600 bg-blue-50/80 font-bold shadow-xs' 
+                ? 'text-blue-700 bg-blue-50 font-bold'
                 : 'text-slate-600 hover:text-blue-600 hover:bg-slate-50'"
             >
-              <component :is="item.icon" class="w-4 h-4 opacity-70" />
               <span>{{ item.name }}</span>
-              <span 
-                v-if="isActive(item.href)" 
-                class="absolute bottom-0 right-4 left-4 h-0.5 bg-blue-600 rounded-full"
-              ></span>
             </Link>
           </nav>
         </div>
@@ -100,7 +95,7 @@ const isActive = (href) => {
 
             <Link 
               :href="route('dashboard')" 
-              class="inline-flex items-center gap-2 px-4 py-2 text-sm font-bold rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md shadow-blue-500/20 hover:from-blue-700 hover:to-indigo-700 hover:shadow-lg hover:shadow-blue-500/30 transition-all duration-200"
+              class="ui-button ui-button-secondary"
             >
               <LayoutDashboard class="w-4 h-4" />
               <span>{{ user.name }}</span>
@@ -118,7 +113,7 @@ const isActive = (href) => {
 
             <Link 
               :href="route('register')" 
-              class="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-bold rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md shadow-blue-500/25 hover:from-blue-700 hover:to-indigo-700 hover:shadow-lg hover:shadow-blue-500/35 transition-all duration-200"
+              class="ui-button ui-button-primary"
             >
               <UserPlus class="w-4 h-4" />
               <span>شروع همکاری</span>
@@ -130,8 +125,10 @@ const isActive = (href) => {
         <div class="flex items-center lg:hidden">
           <button 
             @click="isMobileMenuOpen = !isMobileMenuOpen" 
-            class="p-2.5 rounded-xl text-slate-700 hover:text-blue-600 hover:bg-slate-100 transition focus:outline-none"
+            class="flex h-11 w-11 items-center justify-center rounded-xl text-slate-700 hover:bg-slate-100 hover:text-blue-700"
             aria-label="منو"
+            :aria-expanded="isMobileMenuOpen"
+            aria-controls="public-mobile-menu"
           >
             <Menu v-if="!isMobileMenuOpen" class="w-6 h-6" />
             <X v-else class="w-6 h-6" />
@@ -149,7 +146,7 @@ const isActive = (href) => {
       leave-from-class="opacity-100 translate-y-0"
       leave-to-class="opacity-0 -translate-y-2"
     >
-      <div v-if="isMobileMenuOpen" class="lg:hidden bg-white/95 backdrop-blur-2xl border-b border-slate-200 px-4 pt-3 pb-6 space-y-3 shadow-xl">
+      <div v-if="isMobileMenuOpen" id="public-mobile-menu" class="max-h-[calc(100dvh-4rem)] overflow-y-auto border-b border-slate-200 bg-white px-4 pb-6 pt-3 shadow-lg lg:hidden">
         <div class="space-y-1">
           <Link 
             v-for="item in navItems" 
@@ -168,6 +165,14 @@ const isActive = (href) => {
 
         <div class="pt-4 border-t border-slate-100 space-y-2">
           <template v-if="user">
+            <Link
+              :href="route('orders.create')"
+              @click="isMobileMenuOpen = false"
+              class="ui-button ui-button-primary w-full"
+            >
+              <PlusCircle class="h-4 w-4" aria-hidden="true" />
+              سفارش جدید
+            </Link>
             <Link 
               v-if="user.role === 'admin'"
               :href="route('admin.dashboard')" 
@@ -201,7 +206,7 @@ const isActive = (href) => {
             <Link 
               :href="route('register')" 
               @click="isMobileMenuOpen = false"
-              class="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-sm font-bold bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md shadow-blue-500/25"
+              class="ui-button ui-button-primary w-full"
             >
               <UserPlus class="w-4 h-4" />
               ثبت‌نام و سفارش پروژه

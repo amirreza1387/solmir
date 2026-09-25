@@ -11,31 +11,31 @@
       <form @submit.prevent="submit" class="space-y-6">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <label class="block text-sm font-medium text-slate-700 mb-1">عنوان</label>
-            <input v-model="form.title" type="text" class="w-full border-slate-300 rounded-lg focus:ring-blue-500 focus:border-blue-500">
+            <label for="service-title" class="block text-sm font-medium text-slate-700 mb-1">عنوان</label>
+            <input id="service-title" v-model="form.title" type="text" class="ui-field">
             <div v-if="form.errors.title" class="text-red-500 text-sm mt-1">{{ form.errors.title }}</div>
           </div>
           <div>
-            <label class="block text-sm font-medium text-slate-700 mb-1">نامک (Slug)</label>
-            <input v-model="form.slug" type="text" class="w-full border-slate-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" dir="ltr">
+            <label for="service-slug" class="block text-sm font-medium text-slate-700 mb-1">نامک (Slug)</label>
+            <input id="service-slug" v-model="form.slug" type="text" class="ui-field" dir="ltr">
             <div v-if="form.errors.slug" class="text-red-500 text-sm mt-1">{{ form.errors.slug }}</div>
           </div>
         </div>
 
         <div>
-          <label class="block text-sm font-medium text-slate-700 mb-1">توضیحات</label>
-          <textarea v-model="form.description" rows="4" class="w-full border-slate-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"></textarea>
+          <label for="service-description" class="block text-sm font-medium text-slate-700 mb-1">توضیحات</label>
+          <textarea id="service-description" v-model="form.description" rows="4" class="ui-field"></textarea>
           <div v-if="form.errors.description" class="text-red-500 text-sm mt-1">{{ form.errors.description }}</div>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <label class="block text-sm font-medium text-slate-700 mb-1">آیکون (نام کلاس یا SVG)</label>
-            <input v-model="form.icon" type="text" class="w-full border-slate-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" dir="ltr">
+            <label for="service-icon" class="block text-sm font-medium text-slate-700 mb-1">آیکون (نام کلاس یا SVG)</label>
+            <input id="service-icon" v-model="form.icon" type="text" class="ui-field" dir="ltr">
           </div>
           <div>
-            <label class="block text-sm font-medium text-slate-700 mb-1">ترتیب نمایش</label>
-            <input v-model="form.sort_order" type="number" class="w-full border-slate-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" dir="ltr">
+            <label for="service-sort_order" class="block text-sm font-medium text-slate-700 mb-1">ترتیب نمایش</label>
+            <input id="service-sort_order" v-model="form.sort_order" type="number" class="ui-field" dir="ltr">
           </div>
         </div>
 
@@ -45,7 +45,7 @@
         </div>
 
         <div class="pt-4 flex gap-3">
-          <button type="submit" :disabled="form.processing" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50">
+          <button type="submit" :disabled="form.processing" class="ui-button ui-button-primary">
             ذخیره تغییرات
           </button>
         </div>

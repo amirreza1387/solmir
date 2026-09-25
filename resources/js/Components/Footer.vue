@@ -82,11 +82,11 @@ import {
             خدمات تخصصی
           </h4>
           <ul class="space-y-2.5 text-sm text-slate-400">
-            <li class="hover:text-blue-400 transition cursor-pointer">طراحی وب‌سایت شرکتی و فروشگاهی</li>
-            <li class="hover:text-blue-400 transition cursor-pointer">طراحی اختصاصی UI/UX مدرن</li>
-            <li class="hover:text-blue-400 transition cursor-pointer">بهینه‌سازی سرعت و سئو تخصصی</li>
-            <li class="hover:text-blue-400 transition cursor-pointer">توسعه پنل‌ها و پلتفرم‌های تحت وب</li>
-            <li class="hover:text-blue-400 transition cursor-pointer">پشتیبانی و نگهداری نرم‌افزاری</li>
+            <li>طراحی وب‌سایت شرکتی و فروشگاهی</li>
+            <li>طراحی اختصاصی UI/UX مدرن</li>
+            <li>بهینه‌سازی سرعت و سئو تخصصی</li>
+            <li>توسعه پنل‌ها و پلتفرم‌های تحت وب</li>
+            <li>پشتیبانی و نگهداری نرم‌افزاری</li>
           </ul>
         </div>
 
@@ -112,7 +112,7 @@ import {
             </li>
             <li class="flex items-start gap-2.5">
               <Clock class="w-4 h-4 text-blue-400 shrink-0 mt-0.5" />
-              <span class="text-slate-400 text-xs leading-relaxed">شنبه تا چهارشنبه ۹ الی ۱۸ | پشتیبانی تیکتینگ ۲۴/۷</span>
+              <span class="text-slate-400 text-xs leading-relaxed">برای پیگیری درخواست‌ها از پنل تیکت استفاده کنید.</span>
             </li>
           </ul>
         </div>
@@ -123,12 +123,8 @@ import {
       <div class="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
         <p>© {{ new Date().getFullYear() }} تمامی حقوق برای آژانس طراحی وب سلمیر (Solmir) محفوظ است.</p>
         <div class="flex items-center gap-6">
-          <Link href="/about" class="hover:text-slate-400 transition">قوانین و حریم خصوصی</Link>
+          <Link href="/about" class="hover:text-slate-300 transition">درباره ما</Link>
           <Link href="/contact" class="hover:text-slate-400 transition">پشتیبانی و استعلام</Link>
-          <span class="text-emerald-400 flex items-center gap-1">
-            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-            وضعیت سرورها: آنلاین و پایدار
-          </span>
         </div>
       </div>
     </div>

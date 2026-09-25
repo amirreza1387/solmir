@@ -26,24 +26,10 @@
               <td class="p-4">{{ ticket.user?.name || 'کاربر' }}</td>
               <td class="p-4 font-medium">{{ ticket.title }}</td>
               <td class="p-4">
-                <span class="px-2 py-1 text-xs rounded-full font-medium" :class="{
-                  'bg-yellow-100 text-yellow-700': ticket.status === 'open',
-                  'bg-indigo-100 text-indigo-700': ticket.status === 'in_progress',
-                  'bg-blue-100 text-blue-700': ticket.status === 'answered',
-                  'bg-slate-100 text-slate-700': ticket.status === 'closed',
-                }">
-                  {{ getStatusText(ticket.status) }}
-                </span>
+                <StatusBadge :status="ticket.status" kind="ticket" />
               </td>
               <td class="p-4">
-                <span class="px-2 py-1 text-xs rounded-full font-medium" :class="{
-                  'bg-slate-100 text-slate-700': ticket.priority === 'low',
-                  'bg-orange-100 text-orange-700': ticket.priority === 'medium',
-                  'bg-red-100 text-red-700': ticket.priority === 'high',
-                  'bg-rose-100 text-rose-700': ticket.priority === 'urgent',
-                }">
-                  {{ getPriorityText(ticket.priority) }}
-                </span>
+                <StatusBadge :status="ticket.priority" kind="priority" />
               </td>
               <td class="p-4 text-slate-600">{{ new Date(ticket.created_at).toLocaleDateString('fa-IR') }}</td>
               <td class="p-4">
@@ -79,28 +65,11 @@
 <script setup>
 import { Head, Link } from '@inertiajs/vue3';
 import AdminLayout from '@/Layouts/AdminLayout.vue';
+import StatusBadge from '@/Components/StatusBadge.vue';
 
 defineProps({
   tickets: Object,
 });
 
-const getStatusText = (status) => {
-  const statuses = { 
-    open: 'باز', 
-    in_progress: 'در حال بررسی', 
-    answered: 'پاسخ داده شده', 
-    closed: 'بسته شده' 
-  };
-  return statuses[status] || status;
-};
 
-const getPriorityText = (priority) => {
-  const priorities = { 
-    low: 'کم', 
-    medium: 'متوسط', 
-    high: 'زیاد', 
-    urgent: 'فوری' 
-  };
-  return priorities[priority] || priority;
-};
 </script>

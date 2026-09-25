@@ -20,7 +20,7 @@ import {
   
   <PublicLayout>
     <!-- Header Hero -->
-    <div class="relative py-24 bg-radial-glow bg-dot-pattern border-b border-slate-200">
+    <div class="relative py-16 lg:py-20 bg-white border-b border-slate-200">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
         <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-blue-100/80 text-blue-700 text-xs font-bold mb-4">
           <Sparkles class="w-4 h-4" />
@@ -30,7 +30,7 @@ import {
           تلفیق هنر دیزاین و مهندسی نرم‌افزار
         </h1>
         <p class="text-base sm:text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed">
-          ما در سلمیر صرفاً کد نمی‌زنیم؛ ما پلتفرم‌هایی خلق می‌کنیم که کسب‌وکار شما را متمایز، سریع و آماده رقابت جهانی می‌کند.
+          ما برای طراحی و توسعهٔ محصولات وب، مسیر کار را با نیازهای کسب‌وکار و جزئیات فنی هماهنگ می‌کنیم.
         </p>
       </div>
     </div>
@@ -57,21 +57,10 @@ import {
               </p>
             </div>
 
-            <div class="pt-4 grid grid-cols-2 gap-4">
-              <div class="p-4 rounded-2xl bg-slate-50 border border-slate-100">
-                <div class="text-3xl font-black text-blue-600 mb-1">۱۰۰+</div>
-                <div class="text-xs text-slate-500 font-bold">پروژه موفق پیاده‌سازی‌شده</div>
-              </div>
-              <div class="p-4 rounded-2xl bg-slate-50 border border-slate-100">
-                <div class="text-3xl font-black text-indigo-600 mb-1">۹۹.۸٪</div>
-                <div class="text-xs text-slate-500 font-bold">رضایت کارفرمایان و شرکا</div>
-              </div>
-            </div>
           </div>
 
           <!-- Graphic Showcase Box -->
-          <div class="rounded-3xl bg-gradient-to-tr from-slate-900 via-blue-950 to-indigo-900 p-8 sm:p-12 text-white relative shadow-2xl overflow-hidden">
-            <div class="absolute top-0 right-0 w-64 h-64 bg-blue-500/20 rounded-full blur-3xl pointer-events-none"></div>
+          <div class="rounded-2xl bg-slate-900 p-8 sm:p-12 text-white relative overflow-hidden">
 
             <div class="relative z-10 space-y-6">
               <div class="w-12 h-12 rounded-2xl bg-blue-600 text-white flex items-center justify-center shadow-lg">
@@ -86,11 +75,11 @@ import {
                 </li>
                 <li class="flex items-start gap-3">
                   <CheckCircle2 class="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
-                  <span>سیستم اختصاصی پیگیری سفارش و تیکت پشتیبانی ۲۴/۷</span>
+                  <span>پیگیری سفارش و گفت‌وگوهای پشتیبانی از پنل کاربری</span>
                 </li>
                 <li class="flex items-start gap-3">
                   <CheckCircle2 class="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
-                  <span>کدنویسی تمیز با قابلیت مقیاس‌پذیری برای جذب هزاران کاربر همزمان</span>
+                  <span>طراحی ساختار فنی متناسب با نیاز و مقیاس پروژه</span>
                 </li>
                 <li class="flex items-start gap-3">
                   <CheckCircle2 class="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
