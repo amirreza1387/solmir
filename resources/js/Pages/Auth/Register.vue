@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 import GuestLayout from '@/Layouts/GuestLayout.vue';
 import SeoHead from '@/Components/SeoHead.vue';
+import PasswordStrengthMeter from '@/Components/PasswordStrengthMeter.vue';
 import { Link, useForm } from '@inertiajs/vue3';
 import { User, Mail, Phone, Lock, UserPlus, Eye, EyeOff, Loader2 } from 'lucide-vue-next';
 
@@ -141,6 +142,12 @@ const submit = () => {
           </div>
         </div>
         <span v-if="form.errors.password_confirmation" class="text-xs text-red-500 mt-1 block font-medium">{{ form.errors.password_confirmation }}</span>
+
+        <!-- Animated Password Strength & Criteria Meter -->
+        <PasswordStrengthMeter
+          :password="form.password"
+          :confirmation="form.password_confirmation"
+        />
       </div>
 
       <button

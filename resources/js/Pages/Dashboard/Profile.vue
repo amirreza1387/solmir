@@ -2,14 +2,15 @@
 import { ref } from 'vue';
 import { Head, useForm } from '@inertiajs/vue3';
 import AppLayout from '@/Layouts/AppLayout.vue';
-import { 
-  User, 
-  Mail, 
-  Phone, 
-  Lock, 
-  Save, 
-  KeyRound, 
-  Calendar, 
+import PasswordStrengthMeter from '@/Components/PasswordStrengthMeter.vue';
+import {
+  User,
+  Mail,
+  Phone,
+  Lock,
+  Save,
+  KeyRound,
+  Calendar,
   ShieldCheck,
   Eye,
   EyeOff,
@@ -60,7 +61,7 @@ const updatePassword = () => {
 
   <AppLayout>
     <div class="max-w-4xl mx-auto space-y-8">
-      
+
       <!-- Header -->
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
@@ -265,6 +266,12 @@ const updatePassword = () => {
               <span v-if="passwordForm.errors.password_confirmation" class="text-xs text-red-500 mt-1.5 block font-medium">{{ passwordForm.errors.password_confirmation }}</span>
             </div>
           </div>
+
+          <!-- Animated Password Strength Meter -->
+          <PasswordStrengthMeter
+            :password="passwordForm.password"
+            :confirmation="passwordForm.password_confirmation"
+          />
 
           <div class="pt-4 border-t border-slate-100 flex items-center justify-between">
             <button

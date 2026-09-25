@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 import GuestLayout from '@/Layouts/GuestLayout.vue';
 import SeoHead from '@/Components/SeoHead.vue';
+import PasswordStrengthMeter from '@/Components/PasswordStrengthMeter.vue';
 import { Link, useForm } from '@inertiajs/vue3';
 import { Mail, Lock, KeyRound, Eye, EyeOff, Loader2 } from 'lucide-vue-next';
 
@@ -119,6 +120,12 @@ const submit = () => {
             <Lock class="w-4 h-4 text-slate-400" aria-hidden="true" />
           </div>
         </div>
+
+        <!-- Animated Password Strength & Criteria Meter -->
+        <PasswordStrengthMeter
+          :password="form.password"
+          :confirmation="form.password_confirmation"
+        />
       </div>
 
       <button
