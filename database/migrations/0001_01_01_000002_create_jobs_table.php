@@ -37,8 +37,9 @@ return new class extends Migration
         Schema::create('failed_jobs', function (Blueprint $table) {
             $table->id();
             $table->string('uuid')->unique();
-            $table->string('connection');
-            $table->string('queue');
+            // Keep the composite index below within legacy MySQL's 1000-byte limit.
+            $table->string('connection', 120);
+            $table->string('queue', 120);
             $table->longText('payload');
             $table->longText('exception');
             $table->timestamp('failed_at')->useCurrent();
