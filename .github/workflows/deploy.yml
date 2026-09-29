@@ -55,23 +55,38 @@ jobs:
         run: |
           set -euo pipefail
           rm -rf release
-          mkdir -p release/app release/public
+          mkdir -p release/solmir release/public_html
 
           rsync -a \
             --exclude '.env' \
             --exclude '.env.*' \
             --exclude '.git/' \
             --exclude '.github/' \
+            --exclude '.agents/' \
+            --exclude 'AGENTS.md' \
+            --exclude 'CLAUDE.md' \
+            --exclude 'DEPLOYMENT.md' \
+            --exclude 'README.md' \
             --exclude 'node_modules/' \
             --exclude 'public/' \
+            --exclude 'release/' \
             --exclude 'storage/' \
             --exclude 'tests/' \
             --exclude 'phpunit.xml' \
-            ./ release/app/
+            ./ release/solmir/
 
-          rsync -a public/ release/public/
+          rsync -a public/ release/public_html/
 
-          cat > release/app/.env <<EOF
+          mkdir -p \
+            release/solmir/storage/app/private \
+            release/solmir/storage/app/public \
+            release/solmir/storage/framework/cache/data \
+            release/solmir/storage/framework/sessions \
+            release/solmir/storage/framework/views \
+            release/solmir/storage/logs \
+            release/solmir/bootstrap/cache
+
+          cat > release/solmir/.env <<EOF
           APP_NAME=Solmir
           APP_ENV=production
           APP_KEY=${APP_KEY}
@@ -104,7 +119,7 @@ jobs:
           MAIL_FROM_NAME=Solmir
           EOF
 
-          cat > release/public/index.php <<PHP
+          cat > release/public_html/index.php <<PHP
           <?php
 
           use Illuminate\Foundation\Application;
@@ -126,7 +141,9 @@ jobs:
           \$app->handleRequest(Request::capture());
           PHP
 
-      - name: Publish over FTPS
+          tar -czf release/solmir-next.tar.gz -C release solmir public_html
+
+      - name: Publish compressed release over FTPS
         shell: bash
         run: |
           set -euo pipefail
@@ -148,14 +165,7 @@ jobs:
           # Re-enable certificate verification as soon as its valid FTPS certificate is issued.
           set ssl:verify-certificate false
           open -u "${FTP_USERNAME}","${FTP_PASSWORD}" "ftp://${FTP_HOST}:${FTP_PORT}"
-          mkdir -p "${FTP_APP_PATH}/storage/app/private"
-          mkdir -p "${FTP_APP_PATH}/storage/app/public"
-          mkdir -p "${FTP_APP_PATH}/storage/framework/cache/data"
-          mkdir -p "${FTP_APP_PATH}/storage/framework/sessions"
-          mkdir -p "${FTP_APP_PATH}/storage/framework/views"
-          mkdir -p "${FTP_APP_PATH}/storage/logs"
-          mkdir -p "${FTP_APP_PATH}/bootstrap/cache"
-          mirror --reverse --verbose release/app/ "${FTP_APP_PATH}/"
-          mirror --reverse --verbose release/public/ "${FTP_PUBLIC_PATH}/"
+          put -o .solmir-next.tar.gz.uploading release/solmir-next.tar.gz
+          mv .solmir-next.tar.gz.uploading .solmir-next.tar.gz
           bye
           EOF
