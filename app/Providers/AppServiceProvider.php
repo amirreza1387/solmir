@@ -11,6 +11,7 @@ use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\Password;
@@ -30,6 +31,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Supports shared hosts that still enforce the legacy 1000-byte index limit.
+        Schema::defaultStringLength(191);
+
         Gate::policy(Order::class, OrderPolicy::class);
         Gate::policy(Ticket::class, TicketPolicy::class);
 
