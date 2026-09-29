@@ -75,6 +75,9 @@ jobs:
             --exclude 'phpunit.xml' \
             ./ release/solmir/
 
+          # Laravel reads Vite's manifest from its own public directory, while
+          # the web server serves the same compiled assets from public_html.
+          rsync -a public/ release/solmir/public/
           rsync -a public/ release/public_html/
 
           mkdir -p \
