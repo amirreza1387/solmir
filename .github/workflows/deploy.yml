@@ -165,7 +165,9 @@ jobs:
           # Re-enable certificate verification as soon as its valid FTPS certificate is issued.
           set ssl:verify-certificate false
           open -u "${FTP_USERNAME}","${FTP_PASSWORD}" "ftp://${FTP_HOST}:${FTP_PORT}"
-          put -o .solmir-next.tar.gz.uploading release/solmir-next.tar.gz
-          mv .solmir-next.tar.gz.uploading .solmir-next.tar.gz
+          rm -f solmir-next.tar.gz
+          put release/solmir-next.tar.gz
+          rm -f .solmir-next.tar.gz
+          mv solmir-next.tar.gz .solmir-next.tar.gz
           bye
           EOF
