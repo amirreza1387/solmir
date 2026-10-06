@@ -38,6 +38,24 @@ import {
             <ShieldCheck class="w-5 h-5 text-blue-400 shrink-0" />
             <span>ضمانت کیفیت، پشتیبانی فعال و قرارداد رسمی برای تمامی پروژه‌ها</span>
           </div>
+
+          <div class="flex items-center">
+            <a
+              referrerpolicy="origin"
+              target="_blank"
+              rel="noopener"
+              href="https://trustseal.enamad.ir/?id=7923171&Code=iF9PygW9Tu0ppXjycsBLFy0Rfl3Csqrw"
+              class="inline-block bg-white rounded-xl p-2 shadow-md"
+            >
+              <img
+                referrerpolicy="origin"
+                src="https://trustseal.enamad.ir/logo.aspx?id=7923171&Code=iF9PygW9Tu0ppXjycsBLFy0Rfl3Csqrw"
+                alt="نماد اعتماد الکترونیکی"
+                style="cursor:pointer"
+                code="iF9PygW9Tu0ppXjycsBLFy0Rfl3Csqrw"
+              />
+            </a>
+          </div>
         </div>
 
         <!-- Quick Links -->
