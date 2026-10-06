@@ -190,18 +190,24 @@ const setJourneyStep = (index) => {
 let touchStartX = 0;
 let touchEndX = 0;
 
+let isSwipeIgnored = false;
+
 const handleTouchStart = (e) => {
+  isSwipeIgnored = Boolean(e.target?.closest?.('[role="tablist"]'));
   if (e.changedTouches && e.changedTouches[0]) {
     touchStartX = e.changedTouches[0].screenX;
   }
 };
 
 const handleTouchEnd = (e) => {
+  if (isSwipeIgnored) {
+    return;
+  }
   if (e.changedTouches && e.changedTouches[0]) {
     touchEndX = e.changedTouches[0].screenX;
     const diff = touchEndX - touchStartX;
     if (Math.abs(diff) > 40) {
-      if (diff < 0) {
+      if (diff > 0) {
         nextJourneyStep(true);
       } else {
         prevJourneyStep();
@@ -363,7 +369,7 @@ const homeSchema = {
 
       <div class="ui-container relative z-10 grid items-center gap-12 lg:grid-cols-12">
         <!-- Left: Hero Content -->
-        <div class="lg:col-span-6 xl:col-span-6">
+        <div class="flex flex-col items-center text-center lg:col-span-6 lg:items-start lg:text-start xl:col-span-6">
           <div class="mb-5 inline-flex items-center gap-2 rounded-full border border-blue-200/70 bg-blue-50/80 px-3.5 py-1 text-xs font-bold text-blue-700 shadow-2xs">
             <span class="relative flex h-2 w-2">
               <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"></span>
@@ -372,15 +378,15 @@ const homeSchema = {
             <span>آژانس مهندسی وب و طراحی دیجیتال سلمیر</span>
           </div>
 
-          <h1 class="max-w-2xl text-[34px] font-black leading-[1.3] text-slate-900 sm:text-5xl lg:text-[54px] lg:leading-[1.18]">
+          <h1 class="mx-auto max-w-2xl lg:mx-0 text-[34px] font-black leading-[1.3] text-slate-900 sm:text-5xl lg:text-[54px] lg:leading-[1.18]">
             طراحی و توسعهٔ وب برای کسب‌وکارهایی که به اجرای دقیق نیاز دارند
           </h1>
 
-          <p class="mt-6 max-w-xl text-base leading-8 text-slate-600 sm:text-lg">
+          <p class="mx-auto mt-6 max-w-xl text-base leading-8 lg:mx-0 text-slate-600 sm:text-lg">
             از شناخت نیاز تا طراحی، توسعه و پشتیبانی، مسیر پروژه‌تان را با یک تیم و در پنل اختصاصی پیگیری کنید.
           </p>
 
-          <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+          <div class="mt-8 flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:flex-wrap sm:justify-center lg:justify-start">
             <Link :href="route('orders.create')" class="ui-button ui-button-primary px-7 py-3.5 shadow-md shadow-blue-500/20 transition-all hover:shadow-lg hover:shadow-blue-500/30">
               ثبت درخواست پروژه <ArrowLeft class="h-4 w-4" aria-hidden="true" />
             </Link>
@@ -389,14 +395,14 @@ const homeSchema = {
             </Link>
           </div>
 
-          <div class="mt-5 flex items-center gap-4">
+          <div class="mt-5 flex items-center justify-center gap-4 lg:justify-start">
             <a href="#estimator" class="inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-blue-700 hover:text-blue-800">
               برآورد هوشمند بودجه پروژه <ArrowLeft class="h-4 w-4" aria-hidden="true" />
             </a>
           </div>
 
           <!-- Micro Technical Specs Row -->
-          <div class="mt-8 flex flex-wrap items-center gap-2.5 border-t border-slate-100 pt-6 text-xs text-slate-500">
+          <div class="mt-8 flex flex-wrap items-center justify-center gap-2.5 border-t border-slate-100 pt-6 text-xs text-slate-500 lg:justify-start">
             <span class="font-mono text-[11px] font-semibold text-slate-400">STACK:</span>
             <span class="inline-flex items-center gap-1 rounded-md border border-slate-200 bg-slate-50 px-2 py-0.5 font-medium text-slate-700">Vue 3 & TS</span>
             <span class="inline-flex items-center gap-1 rounded-md border border-slate-200 bg-slate-50 px-2 py-0.5 font-medium text-slate-700">Laravel 12 Architecture</span>
