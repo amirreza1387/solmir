@@ -367,9 +367,9 @@ const homeSchema = {
       <div class="pointer-events-none absolute top-4 left-6 hidden select-none font-mono text-[10px] text-slate-400/80 lg:block">+ 35.6892° N / 51.3890° E // SOLMIR_STUDIO_V2</div>
       <div class="pointer-events-none absolute top-4 right-6 hidden select-none font-mono text-[10px] text-slate-400/80 lg:block">SYS_STATUS: OPTIMAL [100%] +</div>
 
-      <div class="ui-container relative z-10 grid items-center gap-12 lg:grid-cols-12">
+      <div class="ui-container relative z-10 grid grid-cols-1 items-center gap-12 lg:grid-cols-12">
         <!-- Left: Hero Content -->
-        <div class="flex flex-col items-center text-center lg:col-span-6 lg:items-start lg:text-start xl:col-span-6">
+        <div class="flex min-w-0 flex-col items-center text-center lg:col-span-6 lg:items-start lg:text-start xl:col-span-6">
           <div class="mb-5 inline-flex items-center gap-2 rounded-full border border-blue-200/70 bg-blue-50/80 px-3.5 py-1 text-xs font-bold text-blue-700 shadow-2xs">
             <span class="relative flex h-2 w-2">
               <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"></span>
@@ -411,7 +411,7 @@ const homeSchema = {
         </div>
 
         <!-- Right: Browser & Digital Interface Composition -->
-        <div class="relative lg:col-span-6 xl:col-span-6">
+        <div class="relative min-w-0 lg:col-span-6 xl:col-span-6">
           <!-- Floating Badge 1 (Top Left in RTL) -->
           <div class="absolute -top-4 -left-2 z-20 hidden items-center gap-2 rounded-xl border border-slate-200/90 bg-white/95 px-3.5 py-1.5 shadow-md backdrop-blur-xs sm:flex">
             <div class="flex h-6 w-6 items-center justify-center rounded-lg bg-blue-50 text-blue-600">
